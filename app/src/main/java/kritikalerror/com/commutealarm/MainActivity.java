@@ -4,14 +4,27 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 
 public class MainActivity extends Activity {
+
+    EditText mTimeBox;
+    EditText mLocationBox;
+
+    String mTime;
+    String mLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mTimeBox = (EditText) findViewById(R.id.sleepEdit);
+        mLocationBox = (EditText) findViewById(R.id.workEdit);
+
+        mTime = mTimeBox.getText().toString();
+        mLocation = mLocationBox.getText().toString();
     }
 
 
