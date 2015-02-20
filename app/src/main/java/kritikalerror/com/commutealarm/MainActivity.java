@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class MainActivity extends Activity {
 
     EditText mTimeBox;
     EditText mLocationBox;
+    TextView mAlarmTextView;
 
     String mTime;
     String mLocation;
@@ -22,6 +24,7 @@ public class MainActivity extends Activity {
 
         mTimeBox = (EditText) findViewById(R.id.sleepEdit);
         mLocationBox = (EditText) findViewById(R.id.workEdit);
+        mAlarmTextView = (TextView) findViewById(R.id.alarmNotification);
 
         mTime = mTimeBox.getText().toString();
         mLocation = mLocationBox.getText().toString();
