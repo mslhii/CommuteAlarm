@@ -5,4 +5,7 @@ package kritikalerror.com.commutealarm;
  */
 public class AlarmSupport {
 
+    public static void queryGoogle(){
+
+    }
 }

@@ -1,1 +1,1 @@
-include ':CommuteAlarm'
+include ':app'
