@@ -5,9 +5,11 @@ import android.app.AlarmManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
@@ -17,12 +19,14 @@ public class MainActivity extends Activity {
     private TextView mAlarmTextView;
     private Button mSubmitButton;
     private TextView mAlarmRingerView;
+    private EditText mHabitBox;
 
     private AlarmManager mAlarmManager;
     private static MainActivity inst;
 
     private String mTime;
     private String mLocation;
+    private String mHabit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +38,20 @@ public class MainActivity extends Activity {
         mAlarmTextView = (TextView) findViewById(R.id.alarmNotification);
         mSubmitButton = (Button) findViewById(R.id.submit);
         mAlarmRingerView = (TextView) findViewById(R.id.ringer);
+        mHabitBox = (EditText) findViewById(R.id.prepareTime);
 
         mTime = mTimeBox.getText().toString();
         mLocation = mLocationBox.getText().toString();
+        mHabit = mHabitBox.getText().toString();
+
+        mSubmitButton.setOnClickListener(new Button.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                Toast.makeText(MainActivity.this, "Setting Alarm!", Toast.LENGTH_SHORT).show();
+            }
+
+        });
     }
 
     public static MainActivity instance() {

@@ -5,7 +5,13 @@ package kritikalerror.com.commutealarm;
  */
 public class AlarmSupport {
 
-    public static void queryGoogle(){
+    public AlarmSupport() {
+        // Static class
+    }
 
+    public static String queryGoogle(){
+        String returnTime = "";
+
+        return returnTime;
     }
 }
