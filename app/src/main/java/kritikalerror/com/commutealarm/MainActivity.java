@@ -2,7 +2,10 @@ package kritikalerror.com.commutealarm;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
+
+import java.util.Calendar;
 
 
 public class MainActivity extends Activity {
@@ -22,6 +28,7 @@ public class MainActivity extends Activity {
     private EditText mHabitBox;
 
     private AlarmManager mAlarmManager;
+    private PendingIntent pendingIntent;
     private static MainActivity inst;
 
     private String mTime;
@@ -43,6 +50,9 @@ public class MainActivity extends Activity {
         mTime = mTimeBox.getText().toString();
         mLocation = mLocationBox.getText().toString();
         mHabit = mHabitBox.getText().toString();
+
+        ToggleButton alarmToggle = (ToggleButton) findViewById(R.id.alarmToggle);
+        mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         mSubmitButton.setOnClickListener(new Button.OnClickListener() {
 
@@ -66,6 +76,22 @@ public class MainActivity extends Activity {
     public void onStart() {
         super.onStart();
         inst = this;
+    }
+
+    public void onToggleClicked(View view) {
+        if (((ToggleButton) view).isChecked()) {
+            Log.d("MyActivity", "Alarm On");
+            Calendar calendar = Calendar.getInstance();
+            //calendar.set(Calendar.HOUR_OF_DAY, alarmTimePicker.getCurrentHour());
+            //calendar.set(Calendar.MINUTE, alarmTimePicker.getCurrentMinute());
+            Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
+            pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
+            mAlarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
+        } else {
+            mAlarmManager.cancel(pendingIntent);
+            setAlarmText("");
+            Log.d("MyActivity", "Alarm Off");
+        }
     }
 
     @Override
