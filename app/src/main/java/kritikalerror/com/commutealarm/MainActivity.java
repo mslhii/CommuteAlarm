@@ -68,8 +68,9 @@ public class MainActivity extends Activity {
         return inst;
     }
 
-    public void setAlarmText(String alarmText) {
-        mAlarmRingerView.setText(alarmText.toString());
+    public void setAlarmText(String alarmText)
+    {
+        mAlarmRingerView.setText(alarmText);
     }
 
     @Override
@@ -82,8 +83,12 @@ public class MainActivity extends Activity {
         if (((ToggleButton) view).isChecked()) {
             Log.d("MyActivity", "Alarm On");
             Calendar calendar = Calendar.getInstance();
-            //calendar.set(Calendar.HOUR_OF_DAY, alarmTimePicker.getCurrentHour());
-            //calendar.set(Calendar.MINUTE, alarmTimePicker.getCurrentMinute());
+            calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+            calendar.set(Calendar.MINUTE, (calendar.get(Calendar.MINUTE) + Calendar.MINUTE));
+            mAlarmTextView.setText("Alarm will be set to: \n" +
+                    calendar.get(Calendar.HOUR_OF_DAY) +
+                    ":" +
+                    (calendar.get(Calendar.MINUTE) + Calendar.MINUTE));
             Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
             pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
             mAlarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
