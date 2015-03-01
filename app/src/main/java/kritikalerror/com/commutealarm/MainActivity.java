@@ -84,17 +84,17 @@ public class MainActivity extends Activity {
             Log.d("MyActivity", "Alarm On");
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-            calendar.set(Calendar.MINUTE, (calendar.get(Calendar.MINUTE) + Calendar.MINUTE));
+            calendar.set(Calendar.MINUTE, (calendar.get(Calendar.MINUTE) + 1));
             mAlarmTextView.setText("Alarm will be set to: \n" +
                     calendar.get(Calendar.HOUR_OF_DAY) +
                     ":" +
-                    (calendar.get(Calendar.MINUTE) + Calendar.MINUTE));
+                    (calendar.get(Calendar.MINUTE) + 1));
             Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
             pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
             mAlarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
         } else {
             mAlarmManager.cancel(pendingIntent);
-            setAlarmText("");
+            setAlarmText("Alarm Off");
             Log.d("MyActivity", "Alarm Off");
         }
     }
