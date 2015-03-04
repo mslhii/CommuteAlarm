@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -94,6 +97,17 @@ public class MainActivity extends Activity {
             mAlarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
         } else {
             mAlarmManager.cancel(pendingIntent);
+            /*
+            //this will sound the alarm tone
+            //this will sound the alarm once, if you wish to
+            //raise alarm in loop continuously then use MediaPlayer and setLooping(true)
+            Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+            if (alarmUri == null) {
+                alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            }
+            Ringtone ringtone = RingtoneManager.getRingtone(MainActivity.this, alarmUri);
+            ringtone.stop();
+            */
             setAlarmText("Alarm Off");
             Log.d("MyActivity", "Alarm Off");
         }
