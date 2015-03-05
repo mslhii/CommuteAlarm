@@ -29,6 +29,7 @@ public class MainActivity extends Activity {
     private Button mSubmitButton;
     private TextView mAlarmRingerView;
     private EditText mHabitBox;
+    private EditText mEventBox;
 
     private AlarmManager mAlarmManager;
     private PendingIntent pendingIntent;
@@ -37,12 +38,14 @@ public class MainActivity extends Activity {
     private String mTime;
     private String mLocation;
     private String mHabit;
+    private String mEventTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mEventBox = (EditText) findViewById(R.id.firstEvent);
         mTimeBox = (EditText) findViewById(R.id.sleepEdit);
         mLocationBox = (EditText) findViewById(R.id.workEdit);
         mAlarmTextView = (TextView) findViewById(R.id.alarmNotification);
@@ -53,6 +56,7 @@ public class MainActivity extends Activity {
         mTime = mTimeBox.getText().toString();
         mLocation = mLocationBox.getText().toString();
         mHabit = mHabitBox.getText().toString();
+        mEventTime = mEventBox.getText().toString();
 
         ToggleButton alarmToggle = (ToggleButton) findViewById(R.id.alarmToggle);
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
