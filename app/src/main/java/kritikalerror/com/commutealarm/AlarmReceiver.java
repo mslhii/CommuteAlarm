@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Vibrator;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
 public class AlarmReceiver extends WakefulBroadcastReceiver {
@@ -27,6 +28,8 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         if (alarmUri == null) {
             alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         }
+        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(2000);
         Ringtone ringtone = RingtoneManager.getRingtone(context, alarmUri);
         ringtone.play();
 
