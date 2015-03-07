@@ -3,6 +3,7 @@ package kritikalerror.com.commutealarm;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -100,18 +101,10 @@ public class MainActivity extends Activity {
             pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
             mAlarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
         } else {
+            mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             mAlarmManager.cancel(pendingIntent);
-            /*
-            //this will sound the alarm tone
-            //this will sound the alarm once, if you wish to
-            //raise alarm in loop continuously then use MediaPlayer and setLooping(true)
-            Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-            if (alarmUri == null) {
-                alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            }
-            Ringtone ringtone = RingtoneManager.getRingtone(MainActivity.this, alarmUri);
-            ringtone.stop();
-            */
+
+            mAlarmTextView.setText("Alarm will be set to: \nOff");
             setAlarmText("Alarm Off");
             Log.d("MyActivity", "Alarm Off");
         }
