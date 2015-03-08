@@ -104,6 +104,16 @@ public class MainActivity extends Activity {
             mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             mAlarmManager.cancel(pendingIntent);
 
+            Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+            if (alarmUri == null) {
+                alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            }
+            Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), alarmUri);
+            if (ringtone.isPlaying())
+            {
+                ringtone.stop();
+            }
+
             mAlarmTextView.setText("Alarm will be set to: \nOff");
             setAlarmText("Alarm Off");
             Log.d("MyActivity", "Alarm Off");
