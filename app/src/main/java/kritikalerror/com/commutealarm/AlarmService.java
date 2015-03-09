@@ -30,9 +30,6 @@ public class AlarmService extends IntentService {
         alarmNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent resultIntent = new Intent(this, MainActivity.class);
-        //TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        //stackBuilder.addParentStack(MainActivity.class);
-        //stackBuilder.addNextIntent(resultIntent);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
 

@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
     private EditText mEventBox;
 
     private AlarmManager mAlarmManager;
-    private PendingIntent pendingIntent;
+    private PendingIntent mPendingIntent;
     private static MainActivity inst;
 
     private String mTime;
@@ -98,11 +98,15 @@ public class MainActivity extends Activity {
                     ":" +
                     (calendar.get(Calendar.MINUTE) + 1));
             Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
-            pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
-            mAlarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
-        } else {
+            mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
+            mAlarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), mPendingIntent);
+        }
+        else
+        {
             mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            mAlarmManager.cancel(pendingIntent);
+            Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
+            mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
+            mAlarmManager.cancel(mPendingIntent);
 
             Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
             if (alarmUri == null) {
