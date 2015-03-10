@@ -41,6 +41,8 @@ public class MainActivity extends Activity {
     private String mHabit;
     private String mEventTime;
 
+    private final int ALARM_ID = 1248940;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,14 +100,21 @@ public class MainActivity extends Activity {
                     ":" +
                     (calendar.get(Calendar.MINUTE) + 1));
             Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
-            mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
-            mAlarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), mPendingIntent);
+            mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, ALARM_ID, myIntent, 0);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                mAlarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), mPendingIntent);
+            }
+            else
+            {
+                mAlarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), mPendingIntent);
+            }
         }
         else
         {
             mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
-            mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
+            mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, ALARM_ID, myIntent, 0);
+            mPendingIntent.cancel();
             mAlarmManager.cancel(mPendingIntent);
 
             Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
