@@ -118,6 +118,10 @@ public class MainActivity extends Activity {
             mPendingIntent.cancel();
             mAlarmManager.cancel(mPendingIntent);
 
+            Intent stopIntent = new Intent(this, AlarmService.class);
+            stopService(stopIntent);
+
+            /*
             Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
             if (alarmUri == null) {
                 alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -127,6 +131,7 @@ public class MainActivity extends Activity {
             {
                 ringtone.stop();
             }
+            */
 
             mAlarmTextView.setText("Alarm will be set to: \nOff");
             setAlarmText("Alarm Off");

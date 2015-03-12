@@ -30,13 +30,33 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         }
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(2000);
+        /*
         Ringtone ringtone = RingtoneManager.getRingtone(context, alarmUri);
-        ringtone.play();
+        if (!ringtone.isPlaying())
+        {
+            ringtone.play();
+        }
+        */
 
         //this will send a notification message
-        //ComponentName comp = new ComponentName(context.getPackageName(),
-        //        AlarmService.class.getName());
-        //startWakefulService(context, (intent.setComponent(comp)));
+        ComponentName comp = new ComponentName(context.getPackageName(),
+                AlarmService.class.getName());
+        startWakefulService(context, (intent.setComponent(comp)));
         setResultCode(Activity.RESULT_OK);
     }
+
 }
+
+/*
+03-11 01:47:08.368    6322-6322/kritikalerror.com.commutealarm D/MyActivity﹕ Alarm On
+03-11 01:48:08.442    6322-6322/kritikalerror.com.commutealarm D/Ringtone﹕ Successfully created local player
+03-11 01:48:08.458    6322-6322/kritikalerror.com.commutealarm E/MediaPlayer﹕ Should have subtitle controller already set
+03-11 01:48:15.875    6322-6322/kritikalerror.com.commutealarm D/Ringtone﹕ Successfully created local player
+03-11 01:48:15.876    6322-6322/kritikalerror.com.commutealarm D/MyActivity﹕ Alarm Off
+03-11 01:48:15.888    6322-6322/kritikalerror.com.commutealarm E/MediaPlayer﹕ Should have subtitle controller already set
+03-11 01:48:16.933    6322-6322/kritikalerror.com.commutealarm D/MyActivity﹕ Alarm On
+03-11 01:49:17.179    6322-6322/kritikalerror.com.commutealarm D/Ringtone﹕ Successfully created local player
+03-11 01:49:17.211    6322-6322/kritikalerror.com.commutealarm E/MediaPlayer﹕ Should have subtitle controller already set
+03-11 01:49:19.693    6322-6322/kritikalerror.com.commutealarm D/Ringtone﹕ Successfully created local player
+03-11 01:49:19.693    6322-6322/kritikalerror.com.commutealarm D/MyActivity﹕ Alarm Off
+ */
