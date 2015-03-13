@@ -30,13 +30,13 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         }
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(2000);
-        /*
+
         Ringtone ringtone = RingtoneManager.getRingtone(context, alarmUri);
         if (!ringtone.isPlaying())
         {
             ringtone.play();
         }
-        */
+        
 
         //this will send a notification message
         ComponentName comp = new ComponentName(context.getPackageName(),

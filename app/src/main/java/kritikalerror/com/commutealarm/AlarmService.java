@@ -19,6 +19,8 @@ import android.util.Log;
 public class AlarmService extends IntentService {
     private NotificationManager alarmNotificationManager;
 
+    public static final String ACTION_AlarmService = "kriticalerror.com.commutealarm.RESPONSE";
+
     public AlarmService() {
         super("AlarmService");
 
@@ -35,7 +37,7 @@ public class AlarmService extends IntentService {
     @Override
     public void onHandleIntent(Intent intent) {
         sendNotification("Wake Up! Wake Up!");
-
+        /*
         Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         if (alarmUri == null) {
             alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -46,12 +48,20 @@ public class AlarmService extends IntentService {
         {
             mRingtone.play();
         }
+        //mRingtone.play();
+        */
+        Intent intentResponse = new Intent();
+        intentResponse.setAction(ACTION_AlarmService);
+        intentResponse.addCategory(Intent.CATEGORY_DEFAULT);
+        intentResponse.putExtra("AlarmPackage", "on");
+        sendBroadcast(intentResponse);
     }
 
     @Override
     public void onDestroy()
     {
-        mRingtone.stop();
+        //mRingtone.stop();
+        Log.d("AlarmService", "Destroying service!");
     }
 
     private void sendNotification(String msg) {

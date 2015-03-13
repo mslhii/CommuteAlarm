@@ -3,8 +3,10 @@ package kritikalerror.com.commutealarm;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -43,6 +45,9 @@ public class MainActivity extends Activity {
 
     private final int ALARM_ID = 1248940;
 
+    private AlarmBroadcastReceiver mAlarmBroadcastReceiver;
+    private Ringtone mRingtone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +77,24 @@ public class MainActivity extends Activity {
             }
 
         });
+
+        //Start MyIntentService
+        //Intent intentMyIntentService = new Intent(this, AlarmService.class);
+        //intentMyIntentService.putExtra(AlarmService.EXTRA_KEY_IN, msgToIntentService);
+        //startService(intentMyIntentService);
+
+        mAlarmBroadcastReceiver = new AlarmBroadcastReceiver();
+
+        //register BroadcastReceiver
+        IntentFilter intentFilter = new IntentFilter(AlarmService.ACTION_AlarmService);
+        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(mAlarmBroadcastReceiver, intentFilter);
+
+        Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        if (alarmUri == null) {
+            alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        }
+        mRingtone = RingtoneManager.getRingtone(MainActivity.this, alarmUri);
     }
 
     public static MainActivity instance() {
@@ -132,6 +155,13 @@ public class MainActivity extends Activity {
                 ringtone.stop();
             }
             */
+            if (mRingtone.isPlaying()) {
+                mRingtone.stop();
+                Log.d("MyActivity", "Stopped ringtone!");
+            }
+
+            RingtoneManager ringtoneManager = new RingtoneManager(MainActivity.this);
+            ringtoneManager.stopPreviousRingtone();
 
             mAlarmTextView.setText("Alarm will be set to: \nOff");
             setAlarmText("Alarm Off");
@@ -156,5 +186,21 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public class AlarmBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String result = intent.getStringExtra("AlarmPackage");
+            Log.d("MyActivity", "Got: " + result);
+
+            if (result.equals("on")) {
+                if (!mRingtone.isPlaying())
+                {
+                    mRingtone.play();
+                }
+            }
+        }
     }
 }
