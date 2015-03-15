@@ -144,17 +144,6 @@ public class MainActivity extends Activity {
             Intent stopIntent = new Intent(this, AlarmService.class);
             stopService(stopIntent);
 
-            /*
-            Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-            if (alarmUri == null) {
-                alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            }
-            Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), alarmUri);
-            if (ringtone.isPlaying())
-            {
-                ringtone.stop();
-            }
-            */
             if (mRingtone.isPlaying()) {
                 mRingtone.stop();
                 Log.d("MyActivity", "Stopped ringtone!");
@@ -204,3 +193,15 @@ public class MainActivity extends Activity {
         }
     }
 }
+
+/*
+03-13 00:35:05.636    8555-8555/kritikalerror.com.commutealarm D/MyActivity﹕ Alarm On
+03-13 00:36:05.725    8555-8555/kritikalerror.com.commutealarm D/Ringtone﹕ Successfully created local player
+03-13 00:36:05.772    8555-8555/kritikalerror.com.commutealarm E/MediaPlayer﹕ Should have subtitle controller already set
+03-13 00:36:05.775    8555-8839/kritikalerror.com.commutealarm D/AlarmService﹕ Preparing to send notification...: Wake Up! Wake Up!
+03-13 00:36:05.775    8555-8839/kritikalerror.com.commutealarm D/AlarmService﹕ Notification sent.
+03-13 00:36:05.777    8555-8555/kritikalerror.com.commutealarm D/MyActivity﹕ Got: on
+03-13 00:36:05.791    8555-8555/kritikalerror.com.commutealarm D/AlarmService﹕ Destroying service!
+03-13 00:36:09.956    8555-8555/kritikalerror.com.commutealarm D/MyActivity﹕ Stopped ringtone!
+03-13 00:36:09.957    8555-8555/kritikalerror.com.commutealarm D/MyActivity﹕ Alarm Off
+ */
