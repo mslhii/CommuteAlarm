@@ -78,11 +78,6 @@ public class MainActivity extends Activity {
 
         });
 
-        //Start MyIntentService
-        //Intent intentMyIntentService = new Intent(this, AlarmService.class);
-        //intentMyIntentService.putExtra(AlarmService.EXTRA_KEY_IN, msgToIntentService);
-        //startService(intentMyIntentService);
-
         mAlarmBroadcastReceiver = new AlarmBroadcastReceiver();
 
         //register BroadcastReceiver
