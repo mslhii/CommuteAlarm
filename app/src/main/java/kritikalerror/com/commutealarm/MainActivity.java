@@ -45,8 +45,8 @@ public class MainActivity extends Activity {
 
     private final int ALARM_ID = 1248940;
 
-    private AlarmBroadcastReceiver mAlarmBroadcastReceiver;
-    private Ringtone mRingtone;
+    //private AlarmBroadcastReceiver mAlarmBroadcastReceiver;
+    //private Ringtone mRingtone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class MainActivity extends Activity {
             }
 
         });
-
+        /*
         mAlarmBroadcastReceiver = new AlarmBroadcastReceiver();
 
         //register BroadcastReceiver
@@ -90,6 +90,7 @@ public class MainActivity extends Activity {
             alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         }
         mRingtone = RingtoneManager.getRingtone(MainActivity.this, alarmUri);
+        */
     }
 
     public static MainActivity instance() {
@@ -139,13 +140,15 @@ public class MainActivity extends Activity {
             Intent stopIntent = new Intent(this, AlarmService.class);
             stopService(stopIntent);
 
+            /*
             if (mRingtone.isPlaying()) {
                 mRingtone.stop();
                 Log.d("MyActivity", "Stopped ringtone!");
             }
+            */
 
-            RingtoneManager ringtoneManager = new RingtoneManager(MainActivity.this);
-            ringtoneManager.stopPreviousRingtone();
+            //RingtoneManager ringtoneManager = new RingtoneManager(MainActivity.this);
+            //ringtoneManager.stopPreviousRingtone();
 
             mAlarmTextView.setText("Alarm will be set to: \nOff");
             setAlarmText("Alarm Off");
@@ -172,6 +175,7 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    /*
     public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
         @Override
@@ -187,6 +191,7 @@ public class MainActivity extends Activity {
             }
         }
     }
+    */
 }
 
 /*
