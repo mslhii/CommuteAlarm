@@ -6,6 +6,7 @@ package kritikalerror.com.commutealarm;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Ringtone;
@@ -16,6 +17,42 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
+public class AlarmService extends Service {
+
+    private Ringtone mRingtone;
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId)
+    {
+        //Uri alarmUri = Uri.parse(intent.getExtras().getString("ringtone-uri"));
+        Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        if (alarmUri == null) {
+            alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        }
+
+        Log.d("AlarmService", "Ringtone playing!");
+        mRingtone = RingtoneManager.getRingtone(this, alarmUri);
+        mRingtone.play();
+
+        return START_NOT_STICKY;
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        Log.d("AlarmService", "Ringtone stopping!");
+        mRingtone.stop();
+
+        RingtoneManager ringtoneManager = new RingtoneManager(this);
+        ringtoneManager.stopPreviousRingtone();
+    }
+}
+/*
 public class AlarmService extends IntentService {
     private NotificationManager alarmNotificationManager;
 
@@ -29,15 +66,9 @@ public class AlarmService extends IntentService {
     private Ringtone mRingtone;
 
     @Override
-    public IBinder onBind(Intent intent)
-    {
-        return null;
-    }
-
-    @Override
     public void onHandleIntent(Intent intent) {
         sendNotification("Wake Up! Wake Up!");
-        /*
+
         Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         if (alarmUri == null) {
             alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -49,7 +80,7 @@ public class AlarmService extends IntentService {
             mRingtone.play();
         }
         //mRingtone.play();
-        */
+
         Intent intentResponse = new Intent();
         intentResponse.setAction(ACTION_AlarmService);
         intentResponse.addCategory(Intent.CATEGORY_DEFAULT);
@@ -66,7 +97,7 @@ public class AlarmService extends IntentService {
 
     private void sendNotification(String msg) {
         Log.d("AlarmService", "Preparing to send notification...: " + msg);
-        /*
+
         alarmNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent resultIntent = new Intent(this, MainActivity.class);
@@ -80,7 +111,8 @@ public class AlarmService extends IntentService {
 
         alamNotificationBuilder.setContentIntent(contentIntent);
         alarmNotificationManager.notify(0, alamNotificationBuilder.build());
-        */
+
         Log.d("AlarmService", "Notification sent.");
     }
 }
+*/

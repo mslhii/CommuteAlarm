@@ -108,6 +108,14 @@ public class MainActivity extends Activity {
         inst = this;
     }
 
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        RingtoneManager ringtoneManager = new RingtoneManager(this);
+        ringtoneManager.stopPreviousRingtone();
+    }
+
     public void onToggleClicked(View view) {
         if (((ToggleButton) view).isChecked()) {
             Log.d("MyActivity", "Alarm On");
