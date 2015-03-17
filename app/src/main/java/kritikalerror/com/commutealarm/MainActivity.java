@@ -45,9 +45,6 @@ public class MainActivity extends Activity {
 
     private final int ALARM_ID = 1248940;
 
-    //private AlarmBroadcastReceiver mAlarmBroadcastReceiver;
-    //private Ringtone mRingtone;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,20 +74,6 @@ public class MainActivity extends Activity {
             }
 
         });
-        /*
-        mAlarmBroadcastReceiver = new AlarmBroadcastReceiver();
-
-        //register BroadcastReceiver
-        IntentFilter intentFilter = new IntentFilter(AlarmService.ACTION_AlarmService);
-        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
-        registerReceiver(mAlarmBroadcastReceiver, intentFilter);
-
-        Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        if (alarmUri == null) {
-            alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        }
-        mRingtone = RingtoneManager.getRingtone(MainActivity.this, alarmUri);
-        */
     }
 
     public static MainActivity instance() {
@@ -148,16 +131,6 @@ public class MainActivity extends Activity {
             Intent stopIntent = new Intent(this, AlarmService.class);
             stopService(stopIntent);
 
-            /*
-            if (mRingtone.isPlaying()) {
-                mRingtone.stop();
-                Log.d("MyActivity", "Stopped ringtone!");
-            }
-            */
-
-            //RingtoneManager ringtoneManager = new RingtoneManager(MainActivity.this);
-            //ringtoneManager.stopPreviousRingtone();
-
             mAlarmTextView.setText("Alarm will be set to: \nOff");
             setAlarmText("Alarm Off");
             Log.d("MyActivity", "Alarm Off");
@@ -182,34 +155,4 @@ public class MainActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    /*
-    public class AlarmBroadcastReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String result = intent.getStringExtra("AlarmPackage");
-            Log.d("MyActivity", "Got: " + result);
-
-            if (result.equals("on")) {
-                if (!mRingtone.isPlaying())
-                {
-                    mRingtone.play();
-                }
-            }
-        }
-    }
-    */
 }
-
-/*
-03-13 00:35:05.636    8555-8555/kritikalerror.com.commutealarm D/MyActivity﹕ Alarm On
-03-13 00:36:05.725    8555-8555/kritikalerror.com.commutealarm D/Ringtone﹕ Successfully created local player
-03-13 00:36:05.772    8555-8555/kritikalerror.com.commutealarm E/MediaPlayer﹕ Should have subtitle controller already set
-03-13 00:36:05.775    8555-8839/kritikalerror.com.commutealarm D/AlarmService﹕ Preparing to send notification...: Wake Up! Wake Up!
-03-13 00:36:05.775    8555-8839/kritikalerror.com.commutealarm D/AlarmService﹕ Notification sent.
-03-13 00:36:05.777    8555-8555/kritikalerror.com.commutealarm D/MyActivity﹕ Got: on
-03-13 00:36:05.791    8555-8555/kritikalerror.com.commutealarm D/AlarmService﹕ Destroying service!
-03-13 00:36:09.956    8555-8555/kritikalerror.com.commutealarm D/MyActivity﹕ Stopped ringtone!
-03-13 00:36:09.957    8555-8555/kritikalerror.com.commutealarm D/MyActivity﹕ Alarm Off
- */
