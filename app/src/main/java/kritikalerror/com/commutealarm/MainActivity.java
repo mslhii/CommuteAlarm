@@ -123,7 +123,6 @@ public class MainActivity extends Activity {
         {
             mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
-            //mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, ALARM_ID, myIntent, 0);
             mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, ALARM_ID, myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
             mPendingIntent.cancel();
             mAlarmManager.cancel(mPendingIntent);

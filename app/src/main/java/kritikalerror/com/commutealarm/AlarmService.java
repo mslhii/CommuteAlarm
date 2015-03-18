@@ -20,6 +20,7 @@ import android.util.Log;
 public class AlarmService extends Service {
 
     private Ringtone mRingtone;
+    private NotificationManager alarmNotificationManager;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -29,7 +30,6 @@ public class AlarmService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
-        //Uri alarmUri = Uri.parse(intent.getExtras().getString("ringtone-uri"));
         Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         if (alarmUri == null) {
             alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -50,49 +50,6 @@ public class AlarmService extends Service {
 
         RingtoneManager ringtoneManager = new RingtoneManager(this);
         ringtoneManager.stopPreviousRingtone();
-    }
-}
-/*
-public class AlarmService extends IntentService {
-    private NotificationManager alarmNotificationManager;
-
-    public static final String ACTION_AlarmService = "kriticalerror.com.commutealarm.RESPONSE";
-
-    public AlarmService() {
-        super("AlarmService");
-
-    }
-
-    private Ringtone mRingtone;
-
-    @Override
-    public void onHandleIntent(Intent intent) {
-        sendNotification("Wake Up! Wake Up!");
-
-        Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        if (alarmUri == null) {
-            alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        }
-
-        mRingtone = RingtoneManager.getRingtone(this, alarmUri);
-        if (!mRingtone.isPlaying())
-        {
-            mRingtone.play();
-        }
-        //mRingtone.play();
-
-        Intent intentResponse = new Intent();
-        intentResponse.setAction(ACTION_AlarmService);
-        intentResponse.addCategory(Intent.CATEGORY_DEFAULT);
-        intentResponse.putExtra("AlarmPackage", "on");
-        sendBroadcast(intentResponse);
-    }
-
-    @Override
-    public void onDestroy()
-    {
-        //mRingtone.stop();
-        Log.d("AlarmService", "Destroying service!");
     }
 
     private void sendNotification(String msg) {
@@ -115,4 +72,3 @@ public class AlarmService extends IntentService {
         Log.d("AlarmService", "Notification sent.");
     }
 }
-*/
