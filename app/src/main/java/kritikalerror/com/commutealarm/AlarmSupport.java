@@ -47,7 +47,7 @@ public class AlarmSupport {
             conn.connect();
             String responseString = convertStreamToString(conn.getInputStream());
             JSONObject response = new JSONObject(responseString);
-            //TODO: parse json
+            returnTime = parseJSON(response);
             conn.disconnect();
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
@@ -77,5 +77,21 @@ public class AlarmSupport {
     private static String convertStreamToString(java.io.InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
+    }
+
+    private static String parseJSON(JSONObject response) {
+        String totalTime = "";
+        JSONObject geometry;
+        try {
+            geometry = (JSONObject) response.get("geometry");
+            JSONObject location = (JSONObject) geometry.get("location");
+            //this.setLatitude(location.getDouble("lat"));
+            //this.setLongitude(location.getDouble("lng"));
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return totalTime;
     }
 }
