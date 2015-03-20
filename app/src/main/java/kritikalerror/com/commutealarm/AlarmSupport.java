@@ -46,6 +46,7 @@ public class AlarmSupport {
             // Connect and get results
             conn.connect();
             String responseString = convertStreamToString(conn.getInputStream());
+            Log.e("JSON", responseString);
             JSONObject response = new JSONObject(responseString);
             returnTime = parseJSON(response);
             conn.disconnect();
@@ -77,6 +78,12 @@ public class AlarmSupport {
     private static String convertStreamToString(java.io.InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
+    }
+
+    private static String getCurrentLocation() {
+        //TODO: implement
+
+        return "";
     }
 
     private static String parseJSON(JSONObject response) {

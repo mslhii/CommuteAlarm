@@ -71,6 +71,8 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View arg0) {
                 Toast.makeText(MainActivity.this, "Setting Alarm!", Toast.LENGTH_SHORT).show();
+
+                String alarmTimeString = AlarmSupport.queryGoogle("Palo Alto", mLocation);
             }
 
         });
