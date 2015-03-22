@@ -36,7 +36,6 @@ public class MainActivity extends Activity {
 
     private AlarmManager mAlarmManager;
     private PendingIntent mPendingIntent;
-    private static MainActivity inst;
 
     private String mTime;
     private String mLocation;
@@ -90,7 +89,6 @@ public class MainActivity extends Activity {
     @Override
     public void onStart() {
         super.onStart();
-        inst = this;
     }
 
     @Override
