@@ -71,14 +71,13 @@ public class MainActivity extends Activity {
             public void onClick(View arg0) {
                 Toast.makeText(MainActivity.this, "Setting Alarm!", Toast.LENGTH_SHORT).show();
 
+                //TODO: make thread
                 String alarmTimeString = AlarmSupport.queryGoogle("Palo Alto", mLocation);
+
+                Toast.makeText(MainActivity.this, alarmTimeString, Toast.LENGTH_LONG).show();
             }
 
         });
-    }
-
-    public static MainActivity instance() {
-        return inst;
     }
 
     public void setAlarmText(String alarmText)

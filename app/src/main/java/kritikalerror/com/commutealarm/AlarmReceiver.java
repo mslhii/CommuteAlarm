@@ -17,10 +17,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, Intent intent) {
-        //this will update the UI with message
-        MainActivity inst = MainActivity.instance();
-        inst.setAlarmText("Alarm Ringing!");
-
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(2000);
 

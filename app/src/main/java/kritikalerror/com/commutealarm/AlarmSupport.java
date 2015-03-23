@@ -87,11 +87,12 @@ public class AlarmSupport {
     }
 
     private static String parseJSON(JSONObject response) {
-        String totalTime = "";
-        JSONObject geometry;
+        String totalTime = "Cannot be parsed";
+        JSONObject legs;
         try {
-            geometry = (JSONObject) response.get("geometry");
-            JSONObject location = (JSONObject) geometry.get("location");
+            legs = (JSONObject) response.get("legs");
+            JSONObject duration = (JSONObject) legs.get("duration");
+            totalTime = duration.getString("text");
             //this.setLatitude(location.getDouble("lat"));
             //this.setLongitude(location.getDouble("lng"));
         } catch (JSONException e) {
