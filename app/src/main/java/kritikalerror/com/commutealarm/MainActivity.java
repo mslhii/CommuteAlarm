@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -42,12 +43,16 @@ public class MainActivity extends Activity {
     private String mHabit;
     private String mEventTime;
 
+    protected String mAlarmTimeString;
+
     private final int ALARM_ID = 1248940;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mAlarmTimeString = "Cannot set alarm!";
 
         mEventBox = (EditText) findViewById(R.id.firstEvent);
         mTimeBox = (EditText) findViewById(R.id.sleepEdit);
@@ -71,10 +76,11 @@ public class MainActivity extends Activity {
             public void onClick(View arg0) {
                 Toast.makeText(MainActivity.this, "Setting Alarm!", Toast.LENGTH_SHORT).show();
 
-                //TODO: make thread
-                String alarmTimeString = AlarmSupport.queryGoogle("Palo Alto", mLocation);
+                //TODO: make text boxes SharedPreferences
+                mLocation = mLocationBox.getText().toString();
+                new getTimeTask().execute(mLocation);
 
-                Toast.makeText(MainActivity.this, alarmTimeString, Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, mAlarmTimeString, Toast.LENGTH_LONG).show();
             }
 
         });
@@ -152,5 +158,26 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class getTimeTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String queryResult = "Cannot get result!";
+            try {
+                queryResult = AlarmSupport.queryGoogle("Palo Alto", params[0]);
+            }
+            catch (Exception e) {
+                Log.e("EXCEPTION", e.getMessage());
+            }
+            return queryResult;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            mAlarmTimeString = s;
+        }
     }
 }
