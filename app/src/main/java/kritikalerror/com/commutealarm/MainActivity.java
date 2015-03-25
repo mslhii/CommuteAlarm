@@ -76,6 +76,10 @@ public class MainActivity extends Activity {
             public void onClick(View arg0) {
                 Toast.makeText(MainActivity.this, "Setting Alarm!", Toast.LENGTH_SHORT).show();
 
+                mTime = mTimeBox.getText().toString();
+                mHabit = mHabitBox.getText().toString();
+                mEventTime = mEventBox.getText().toString();
+
                 //TODO: make text boxes SharedPreferences
                 mLocation = mLocationBox.getText().toString();
                 new getTimeTask().execute(mLocation);
