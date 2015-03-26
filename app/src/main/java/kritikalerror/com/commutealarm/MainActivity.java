@@ -171,6 +171,7 @@ public class MainActivity extends Activity {
             String queryResult = "Cannot get result!";
             try {
                 queryResult = AlarmSupport.queryGoogle("Palo Alto", params[0]);
+                mAlarmTimeString = queryResult;
             }
             catch (Exception e) {
                 Log.e("EXCEPTION", e.getMessage());

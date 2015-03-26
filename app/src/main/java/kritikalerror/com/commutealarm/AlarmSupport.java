@@ -2,6 +2,7 @@ package kritikalerror.com.commutealarm;
 
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.net.URLEncoder;
@@ -31,6 +32,10 @@ public class AlarmSupport {
         String returnTime = "";
         String uriBuilder = "https://maps.googleapis.com/maps/api/directions/json?";
 
+        // Replace spaces with more URI friendly characters
+        location = location.replaceAll(" ","%20");
+        destination = destination.replaceAll(" ","%20");
+
         //https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=AIzaSyAQJ0PLfQ0pBmXJ0TPkBHFbLYL-ATYtk-A
         uriBuilder = uriBuilder + "origin=" + location +
                 "&destination=" + destination +
@@ -47,7 +52,7 @@ public class AlarmSupport {
             conn.connect();
             String responseString = convertStreamToString(conn.getInputStream());
             Log.e("JSON", responseString);
-            JSONObject response = new JSONObject(responseString);
+            JSONArray response = new JSONObject(responseString).getJSONArray("routes");
             returnTime = parseJSON(response);
             conn.disconnect();
         } catch (MalformedURLException e) {
@@ -86,15 +91,16 @@ public class AlarmSupport {
         return "";
     }
 
-    private static String parseJSON(JSONObject response) {
+    private static String parseJSON(JSONArray response) {
         String totalTime = "Cannot be parsed";
-        JSONObject legs;
+        JSONArray legs;
         try {
-            legs = (JSONObject) response.get("legs");
-            JSONObject duration = (JSONObject) legs.get("duration");
-            totalTime = duration.getString("text");
-            //this.setLatitude(location.getDouble("lat"));
-            //this.setLongitude(location.getDouble("lng"));
+            legs = response.getJSONObject(0).getJSONArray("legs");
+            Log.e("PARSE", legs.toString());
+            JSONObject duration = (JSONObject) legs.getJSONObject(0).getJSONObject("duration");
+            Log.e("PARSE", duration.toString());
+            totalTime = duration.getString("value");
+            Log.e("PARSE", totalTime);
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
