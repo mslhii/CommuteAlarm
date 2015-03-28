@@ -22,7 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class MainActivity extends Activity {
@@ -34,6 +36,7 @@ public class MainActivity extends Activity {
     private TextView mAlarmRingerView;
     private EditText mHabitBox;
     private EditText mEventBox;
+    private ToggleButton mAlarmToggle;
 
     private AlarmManager mAlarmManager;
     private PendingIntent mPendingIntent;
@@ -62,12 +65,18 @@ public class MainActivity extends Activity {
         mAlarmRingerView = (TextView) findViewById(R.id.ringer);
         mHabitBox = (EditText) findViewById(R.id.prepareTime);
 
+        //DEBUG ONLY!
+        mTimeBox.setText("23:00");
+        mLocationBox.setText("1 Infinite Loop");
+        mHabitBox.setText("30 minutes");
+        mEventBox.setText("09:30");
+
         mTime = mTimeBox.getText().toString();
         mLocation = mLocationBox.getText().toString();
         mHabit = mHabitBox.getText().toString();
         mEventTime = mEventBox.getText().toString();
 
-        ToggleButton alarmToggle = (ToggleButton) findViewById(R.id.alarmToggle);
+        mAlarmToggle = (ToggleButton) findViewById(R.id.alarmToggle);
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         mSubmitButton.setOnClickListener(new Button.OnClickListener() {
@@ -83,8 +92,6 @@ public class MainActivity extends Activity {
                 //TODO: make text boxes SharedPreferences
                 mLocation = mLocationBox.getText().toString();
                 new getTimeTask().execute(mLocation);
-
-                Toast.makeText(MainActivity.this, mAlarmTimeString, Toast.LENGTH_LONG).show();
             }
 
         });
@@ -109,7 +116,7 @@ public class MainActivity extends Activity {
     }
 
     public void onToggleClicked(View view) {
-        if (((ToggleButton) view).isChecked()) {
+        if (mAlarmToggle.isChecked()) {
             Log.d("MyActivity", "Alarm On");
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
@@ -182,7 +189,34 @@ public class MainActivity extends Activity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            mAlarmTimeString = s;
+            Log.e("TIME", s);
+
+            mAlarmTimeString = subtractTime(s);
+
+            if(mAlarmTimeString.equals("")) {
+                mAlarmTimeString = "Cannot set time!";
+            }
+
+            Toast.makeText(MainActivity.this, mAlarmTimeString, Toast.LENGTH_LONG).show();
+        }
+
+        private String subtractTime(String inTime) {
+            SimpleDateFormat sdf  = new SimpleDateFormat("HH:mm");
+            String returnTime = "";
+            try {
+                long seconds = Long.parseLong(inTime);
+                Date eventDate = sdf.parse(mEventTime);
+                //long timeInMillisSinceEpoch = inDate.getTime();
+                //long timeInMinutesSinceEpoch = timeInMillisSinceEpoch / (60 * 1000);
+                Log.e("TIME", Long.toString(eventDate.getTime()));
+                Log.e("TIME", Long.toString(seconds));
+                Date currentDate = new Date(eventDate.getTime() - seconds);
+                returnTime = sdf.format(currentDate);
+            }
+            catch (Exception e) {
+                Toast.makeText(MainActivity.this, "Cannot parse time! Reason: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+            return returnTime;
         }
     }
 }
