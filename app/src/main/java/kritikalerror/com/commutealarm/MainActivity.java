@@ -206,8 +206,6 @@ public class MainActivity extends Activity {
             try {
                 long seconds = Long.parseLong(inTime);
                 Date eventDate = sdf.parse(mEventTime);
-                //long timeInMillisSinceEpoch = inDate.getTime();
-                //long timeInMinutesSinceEpoch = timeInMillisSinceEpoch / (60 * 1000);
                 Log.e("TIME", Long.toString(eventDate.getTime()));
                 Log.e("TIME", Long.toString(seconds));
                 Date currentDate = new Date(eventDate.getTime() - seconds);
