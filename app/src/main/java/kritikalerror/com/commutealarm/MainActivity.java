@@ -198,9 +198,16 @@ public class MainActivity extends Activity {
             }
 
             Toast.makeText(MainActivity.this, mAlarmTimeString, Toast.LENGTH_LONG).show();
+
+            mAlarmTextView.setText("Alarm will be set to: \n" + mAlarmTimeString);
         }
 
-        private String subtractTime(String inTime) {
+        /**
+         * Deprecated soon
+         * @param inTime
+         * @return
+         */
+        private String subtractSecondsTime(String inTime) {
             SimpleDateFormat sdf  = new SimpleDateFormat("HH:mm");
             String returnTime = "";
             try {
@@ -210,6 +217,32 @@ public class MainActivity extends Activity {
                 Log.e("TIME", Long.toString(seconds));
                 Date currentDate = new Date(eventDate.getTime() - seconds);
                 returnTime = sdf.format(currentDate);
+            }
+            catch (Exception e) {
+                Toast.makeText(MainActivity.this, "Cannot parse time! Reason: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+            return returnTime;
+        }
+
+        private String subtractTime(String inTime) {
+            SimpleDateFormat sdf  = new SimpleDateFormat("HH:mm");
+            Date eventDate = AlarmSupport.convertStringToTime(mEventTime);
+            Calendar now = AlarmSupport.dateToCalendar(eventDate);
+            String returnTime = "";
+            Log.e("TIMER", "Current time is: " + sdf.format(now.getTime()));
+
+            try {
+                if(inTime == null)
+                {
+                    throw new Exception("inTime is null!");
+                }
+                int seconds = Integer.parseInt(inTime);
+
+                // Make seconds negative
+                seconds = -seconds;
+                now.add(Calendar.SECOND, seconds);
+                returnTime = sdf.format(now.getTime());
+                Log.e("TIMER", "Finished is: " + returnTime);
             }
             catch (Exception e) {
                 Toast.makeText(MainActivity.this, "Cannot parse time! Reason: " + e.getMessage(), Toast.LENGTH_LONG).show();

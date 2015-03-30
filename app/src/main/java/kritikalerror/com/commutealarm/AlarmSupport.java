@@ -11,6 +11,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -74,8 +76,13 @@ public class AlarmSupport {
 
     public static Date convertStringToTime(String time)
     {
-        Date finalDate = new Date();
-
+        SimpleDateFormat sdf  = new SimpleDateFormat("HH:mm");
+        Date finalDate = null;
+        try {
+            finalDate = sdf.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return finalDate;
     }
 
@@ -107,5 +114,12 @@ public class AlarmSupport {
         }
 
         return totalTime;
+    }
+
+    public static Calendar dateToCalendar(Date date){
+        Log.e("DATE", date.toString());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal;
     }
 }
