@@ -190,6 +190,8 @@ public class MainActivity extends Activity {
                 mAlarmManager.set(AlarmManager.RTC, mCalendar.getTimeInMillis(), mPendingIntent);
             }
 
+            //TODO: set year and date for alarm
+            //Calendar time is: Thu Jan 01 09:12:45 PST 1970
             Log.e("POST", "Calendar time is: " + mCalendar.getTime().toString());
 
             Toast.makeText(MainActivity.this, mAlarmTimeString, Toast.LENGTH_LONG).show();
