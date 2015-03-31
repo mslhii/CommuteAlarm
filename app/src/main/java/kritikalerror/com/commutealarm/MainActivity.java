@@ -61,7 +61,6 @@ public class MainActivity extends Activity {
         mTimeBox = (EditText) findViewById(R.id.sleepEdit);
         mLocationBox = (EditText) findViewById(R.id.workEdit);
         mAlarmTextView = (TextView) findViewById(R.id.alarmNotification);
-        mSubmitButton = (Button) findViewById(R.id.submit);
         mAlarmRingerView = (TextView) findViewById(R.id.ringer);
         mHabitBox = (EditText) findViewById(R.id.prepareTime);
 
@@ -78,23 +77,6 @@ public class MainActivity extends Activity {
 
         mAlarmToggle = (ToggleButton) findViewById(R.id.alarmToggle);
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-        mSubmitButton.setOnClickListener(new Button.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                Toast.makeText(MainActivity.this, "Setting Alarm!", Toast.LENGTH_SHORT).show();
-
-                mTime = mTimeBox.getText().toString();
-                mHabit = mHabitBox.getText().toString();
-                mEventTime = mEventBox.getText().toString();
-
-                //TODO: make text boxes SharedPreferences
-                mLocation = mLocationBox.getText().toString();
-                new getTimeTask().execute(mLocation);
-            }
-
-        });
     }
 
     public void setAlarmText(String alarmText)
@@ -118,22 +100,16 @@ public class MainActivity extends Activity {
     public void onToggleClicked(View view) {
         if (mAlarmToggle.isChecked()) {
             Log.d("MyActivity", "Alarm On");
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-            calendar.set(Calendar.MINUTE, (calendar.get(Calendar.MINUTE) + 1));
-            mAlarmTextView.setText("Alarm will be set to: \n" +
-                    calendar.get(Calendar.HOUR_OF_DAY) +
-                    ":" +
-                    (calendar.get(Calendar.MINUTE) + 1));
-            Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
-            mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, ALARM_ID, myIntent, 0);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                mAlarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), mPendingIntent);
-            }
-            else
-            {
-                mAlarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), mPendingIntent);
-            }
+
+            Toast.makeText(MainActivity.this, "Setting Alarm!", Toast.LENGTH_SHORT).show();
+
+            mTime = mTimeBox.getText().toString();
+            mHabit = mHabitBox.getText().toString();
+            mEventTime = mEventBox.getText().toString();
+
+            //TODO: make text boxes SharedPreferences
+            mLocation = mLocationBox.getText().toString();
+            new getTimeTask().execute(mLocation);
         }
         else
         {
@@ -172,6 +148,13 @@ public class MainActivity extends Activity {
     }
 
     private class getTimeTask extends AsyncTask<String, Void, String> {
+        private Calendar mCalendar;
+
+        @Override
+        protected void onPreExecute() {
+            // We don't want a null instance
+            mCalendar = Calendar.getInstance();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -196,6 +179,18 @@ public class MainActivity extends Activity {
             if(mAlarmTimeString.equals("")) {
                 mAlarmTimeString = "Cannot set time!";
             }
+
+            Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
+            mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, ALARM_ID, myIntent, 0);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                mAlarmManager.setExact(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), mPendingIntent);
+            }
+            else
+            {
+                mAlarmManager.set(AlarmManager.RTC, mCalendar.getTimeInMillis(), mPendingIntent);
+            }
+
+            Log.e("POST", "Calendar time is: " + mCalendar.getTime().toString());
 
             Toast.makeText(MainActivity.this, mAlarmTimeString, Toast.LENGTH_LONG).show();
 
@@ -227,9 +222,9 @@ public class MainActivity extends Activity {
         private String subtractTime(String inTime) {
             SimpleDateFormat sdf  = new SimpleDateFormat("HH:mm");
             Date eventDate = AlarmSupport.convertStringToTime(mEventTime);
-            Calendar now = AlarmSupport.dateToCalendar(eventDate);
+            mCalendar = AlarmSupport.dateToCalendar(eventDate);
             String returnTime = "";
-            Log.e("TIMER", "Current time is: " + sdf.format(now.getTime()));
+            Log.e("TIMER", "Current time is: " + sdf.format(mCalendar.getTime()));
 
             try {
                 if(inTime == null)
@@ -240,8 +235,8 @@ public class MainActivity extends Activity {
 
                 // Make seconds negative
                 seconds = -seconds;
-                now.add(Calendar.SECOND, seconds);
-                returnTime = sdf.format(now.getTime());
+                mCalendar.add(Calendar.SECOND, seconds);
+                returnTime = sdf.format(mCalendar.getTime());
                 Log.e("TIMER", "Finished is: " + returnTime);
             }
             catch (Exception e) {
@@ -250,4 +245,28 @@ public class MainActivity extends Activity {
             return returnTime;
         }
     }
+
+    /*
+    Debug ONLY!
+     */
+    /*
+    private void _setAlarm() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+        calendar.set(Calendar.MINUTE, (calendar.get(Calendar.MINUTE) + 1));
+        mAlarmTextView.setText("Alarm will be set to: \n" +
+                calendar.get(Calendar.HOUR_OF_DAY) +
+                ":" +
+                (calendar.get(Calendar.MINUTE) + 1));
+        Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
+        mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, ALARM_ID, myIntent, 0);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            mAlarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), mPendingIntent);
+        }
+        else
+        {
+            mAlarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), mPendingIntent);
+        }
+    }
+    */
 }
