@@ -149,11 +149,17 @@ public class MainActivity extends Activity {
 
     private class getTimeTask extends AsyncTask<String, Void, String> {
         private Calendar mCalendar;
+        private int mYear = 0;
+        private int mDay = 0;
+        private int mMonth = 0;
 
         @Override
         protected void onPreExecute() {
             // We don't want a null instance
             mCalendar = Calendar.getInstance();
+            mYear = mCalendar.get(Calendar.YEAR);
+            mMonth = mCalendar.get(Calendar.MONTH);
+            mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
         }
 
         @Override
@@ -180,6 +186,12 @@ public class MainActivity extends Activity {
                 mAlarmTimeString = "Cannot set time!";
             }
 
+            // Add proper dates
+            //TODO: need smart calculation for alarm setting
+            mCalendar.set(Calendar.YEAR, mYear);
+            mCalendar.set(Calendar.MONTH, mMonth);
+            mCalendar.set(Calendar.DAY_OF_MONTH, mDay);
+
             Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
             mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, ALARM_ID, myIntent, 0);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
@@ -190,35 +202,11 @@ public class MainActivity extends Activity {
                 mAlarmManager.set(AlarmManager.RTC, mCalendar.getTimeInMillis(), mPendingIntent);
             }
 
-            //TODO: set year and date for alarm
-            //Calendar time is: Thu Jan 01 09:12:45 PST 1970
             Log.e("POST", "Calendar time is: " + mCalendar.getTime().toString());
 
             Toast.makeText(MainActivity.this, mAlarmTimeString, Toast.LENGTH_LONG).show();
 
             mAlarmTextView.setText("Alarm will be set to: \n" + mAlarmTimeString);
-        }
-
-        /**
-         * Deprecated soon
-         * @param inTime
-         * @return
-         */
-        private String subtractSecondsTime(String inTime) {
-            SimpleDateFormat sdf  = new SimpleDateFormat("HH:mm");
-            String returnTime = "";
-            try {
-                long seconds = Long.parseLong(inTime);
-                Date eventDate = sdf.parse(mEventTime);
-                Log.e("TIME", Long.toString(eventDate.getTime()));
-                Log.e("TIME", Long.toString(seconds));
-                Date currentDate = new Date(eventDate.getTime() - seconds);
-                returnTime = sdf.format(currentDate);
-            }
-            catch (Exception e) {
-                Toast.makeText(MainActivity.this, "Cannot parse time! Reason: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            }
-            return returnTime;
         }
 
         private String subtractTime(String inTime) {
