@@ -152,6 +152,8 @@ public class MainActivity extends Activity {
         private int mYear = 0;
         private int mDay = 0;
         private int mMonth = 0;
+        private int mHour = 0;
+        private int mMinute = 0;
 
         @Override
         protected void onPreExecute() {
@@ -160,6 +162,8 @@ public class MainActivity extends Activity {
             mYear = mCalendar.get(Calendar.YEAR);
             mMonth = mCalendar.get(Calendar.MONTH);
             mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+            mHour = mCalendar.get(Calendar.HOUR);
+            mMinute = mCalendar.get(Calendar.MINUTE);
         }
 
         @Override
@@ -187,10 +191,16 @@ public class MainActivity extends Activity {
             }
 
             // Add proper dates
-            //TODO: need smart calculation for alarm setting
             mCalendar.set(Calendar.YEAR, mYear);
             mCalendar.set(Calendar.MONTH, mMonth);
-            mCalendar.set(Calendar.DAY_OF_MONTH, mDay);
+            // We need to determine the correct day to set the alarm to
+            if(mHour > mCalendar.get(Calendar.HOUR)) {
+                mCalendar.set(Calendar.DAY_OF_MONTH, mDay + 1);
+            }
+            else
+            {
+                mCalendar.set(Calendar.DAY_OF_MONTH, mDay);
+            }
 
             Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
             mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, ALARM_ID, myIntent, 0);
@@ -206,7 +216,7 @@ public class MainActivity extends Activity {
 
             Toast.makeText(MainActivity.this, mAlarmTimeString, Toast.LENGTH_LONG).show();
 
-            mAlarmTextView.setText("Alarm will be set to: \n" + mAlarmTimeString);
+            mAlarmTextView.setText("Alarm will be set to: \n" + mCalendar.getTime().toString());
         }
 
         private String subtractTime(String inTime) {
@@ -214,7 +224,7 @@ public class MainActivity extends Activity {
             Date eventDate = AlarmSupport.convertStringToTime(mEventTime);
             mCalendar = AlarmSupport.dateToCalendar(eventDate);
             String returnTime = "";
-            Log.e("TIMER", "Current time is: " + sdf.format(mCalendar.getTime()));
+            Log.e("TIMER", "Event time is: " + sdf.format(mCalendar.getTime()));
 
             try {
                 if(inTime == null)
