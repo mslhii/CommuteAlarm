@@ -3,13 +3,9 @@ package kritikalerror.com.commutealarm;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,18 +17,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import android.location.Location;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+//import com.google.android.gms.common.ConnectionResult;
+//import com.google.android.gms.common.api.GoogleApiClient;
+//import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+//import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+//import com.google.android.gms.location.LocationServices;
 
 public class MainActivity extends Activity {
 
     private EditText mTimeBox;
     private EditText mLocationBox;
     private TextView mAlarmTextView;
-    private Button mSubmitButton;
     private TextView mAlarmRingerView;
     private EditText mHabitBox;
     private EditText mEventBox;
@@ -40,6 +41,7 @@ public class MainActivity extends Activity {
 
     private AlarmManager mAlarmManager;
     private PendingIntent mPendingIntent;
+    //private GoogleApiClient mGoogleApiClient;
 
     private String mTime;
     private String mLocation;

@@ -92,12 +92,6 @@ public class AlarmSupport {
         return s.hasNext() ? s.next() : "";
     }
 
-    private static String getCurrentLocation() {
-        //TODO: implement
-
-        return "";
-    }
-
     private static String parseJSON(JSONArray response) {
         String totalTime = "Cannot be parsed";
         JSONArray legs;
