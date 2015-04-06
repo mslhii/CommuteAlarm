@@ -23,13 +23,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-//import com.google.android.gms.common.ConnectionResult;
-//import com.google.android.gms.common.api.GoogleApiClient;
-//import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-//import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-//import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationServices;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements
+        ConnectionCallbacks, OnConnectionFailedListener {
 
     private EditText mTimeBox;
     private EditText mLocationBox;
@@ -41,7 +42,7 @@ public class MainActivity extends Activity {
 
     private AlarmManager mAlarmManager;
     private PendingIntent mPendingIntent;
-    //private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient mGoogleApiClient;
 
     private String mTime;
     private String mLocation;
@@ -49,6 +50,7 @@ public class MainActivity extends Activity {
     private String mEventTime;
 
     protected String mAlarmTimeString;
+    protected Location mLastLocation;
 
     private final int ALARM_ID = 1248940;
 
@@ -56,6 +58,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Start up Google client
+        buildGoogleApiClient();
 
         mAlarmTimeString = "Cannot set alarm!";
 
@@ -87,8 +92,17 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
     }
 
     @Override
@@ -254,7 +268,6 @@ public class MainActivity extends Activity {
     /**
      * Runs when a GoogleApiClient object successfully connects.
      */
-    /*
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -270,27 +283,28 @@ public class MainActivity extends Activity {
         // updates. Gets the best and most recent location currently available, which may be null
         // in rare cases when a location is not available.
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation != null) {
-            mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
-            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
-        } else {
-            Toast.makeText(this, R.string.no_location_detected, Toast.LENGTH_LONG).show();
+        if (mLastLocation == null) {
+            Toast.makeText(this, "Cannot find location!", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            Log.e("LOCFOUNDLAT", Double.toString(mLastLocation.getLatitude()));
+            Log.e("LOCFOUNDLONG", Double.toString(mLastLocation.getLongitude()));
         }
     }
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
         // onConnectionFailed.
-        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
+        Log.i("LOC", "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
     }
     @Override
     public void onConnectionSuspended(int cause) {
         // The connection to Google Play services was lost for some reason. We call connect() to
         // attempt to re-establish the connection.
-        Log.i(TAG, "Connection suspended");
+        Log.i("LOC", "Connection suspended");
         mGoogleApiClient.connect();
     }
-    */
 
     /*
     Debug ONLY!
