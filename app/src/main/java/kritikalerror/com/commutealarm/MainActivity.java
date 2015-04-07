@@ -185,8 +185,18 @@ public class MainActivity extends Activity implements
         @Override
         protected String doInBackground(String... params) {
             String queryResult = "Cannot get result!";
+            String locParams = "";
             try {
-                queryResult = AlarmSupport.queryGoogle("Palo Alto", params[0]);
+                if(mLastLocation != null) {
+                    locParams = String.valueOf(mLastLocation.getLatitude()) + "," +
+                            String.valueOf(mLastLocation.getLongitude());
+                }
+                else
+                {
+                    //TODO: else use sharedprefs to get last location
+                    locParams = "Palo Alto";
+                }
+                queryResult = AlarmSupport.queryGoogle(locParams, params[0]);
                 mAlarmTimeString = queryResult;
             }
             catch (Exception e) {
