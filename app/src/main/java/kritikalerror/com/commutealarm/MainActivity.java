@@ -228,6 +228,8 @@ public class MainActivity extends Activity implements
                 mCalendar.set(Calendar.DAY_OF_MONTH, mDay);
             }
 
+            //TODO: if found alarm is less
+
             Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
             mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, ALARM_ID, myIntent, 0);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
