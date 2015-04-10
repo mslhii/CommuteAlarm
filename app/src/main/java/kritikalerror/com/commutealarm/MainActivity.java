@@ -126,6 +126,15 @@ public class MainActivity extends Activity implements
             //TODO: make text boxes SharedPreferences
             mLocation = mLocationBox.getText().toString();
             new getTimeTask().execute(mLocation);
+
+            Intent updateServiceIntent = new Intent(this, TrafficUpdateService.class);
+            Bundle sendBundle = new Bundle();
+            sendBundle.putString("time", mTime);
+            sendBundle.putString("habit", mHabit);
+            sendBundle.putString("event", mEventTime);
+            sendBundle.putString("location", mLocation);
+            updateServiceIntent.putExtras(sendBundle);
+            startService(updateServiceIntent);
         }
         else
         {
