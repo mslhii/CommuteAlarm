@@ -123,6 +123,13 @@ public class MainActivity extends Activity implements
             mHabit = mHabitBox.getText().toString();
             mEventTime = mEventBox.getText().toString();
 
+            // Do a 12/24 hr check here
+            if(mTime.contains("am") && mTime.contains("12:"))
+            {
+                mTime = mTime.replace("am", "");
+                mTime = mTime.replace("12:", "00:");
+            }
+
             //TODO: make text boxes SharedPreferences
             mLocation = mLocationBox.getText().toString();
             new getTimeTask().execute(mLocation);
@@ -236,8 +243,6 @@ public class MainActivity extends Activity implements
             {
                 mCalendar.set(Calendar.DAY_OF_MONTH, mDay);
             }
-
-            //TODO: if found alarm is less
 
             Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
             mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, ALARM_ID, myIntent, 0);
