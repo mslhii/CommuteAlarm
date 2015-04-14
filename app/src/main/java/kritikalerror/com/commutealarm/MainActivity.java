@@ -132,7 +132,7 @@ public class MainActivity extends Activity implements
 
             //TODO: make text boxes SharedPreferences
             mLocation = mLocationBox.getText().toString();
-            new getTimeTask().execute(mLocation);
+            //new getTimeTask().execute(mLocation);
 
             Intent updateServiceIntent = new Intent(this, TrafficUpdateService.class);
             Bundle sendBundle = new Bundle();
@@ -151,8 +151,11 @@ public class MainActivity extends Activity implements
             mPendingIntent.cancel();
             mAlarmManager.cancel(mPendingIntent);
 
-            Intent stopIntent = new Intent(this, AlarmService.class);
-            stopService(stopIntent);
+            Intent stopAlarmIntent = new Intent(this, AlarmService.class);
+            stopService(stopAlarmIntent);
+
+            Intent stopUpdateIntent = new Intent(this, TrafficUpdateService.class);
+            stopService(stopUpdateIntent);
 
             mAlarmTextView.setText("Alarm will be set to: \nOff");
             setAlarmText("Alarm Off");
