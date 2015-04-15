@@ -59,6 +59,7 @@ public class TrafficUpdateService extends Service {
 
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
+        //TODO: add repeating time to execute this
         new getTimeTask().execute(mLocation);
         return START_NOT_STICKY;
     }
