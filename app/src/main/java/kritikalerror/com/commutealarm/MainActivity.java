@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,6 +44,8 @@ public class MainActivity extends Activity implements
     private AlarmManager mAlarmManager;
     private PendingIntent mPendingIntent;
     private GoogleApiClient mGoogleApiClient;
+    private SharedPreferences mPreferences;
+    private SharedPreferences.Editor mEditor;
 
     private String mTime;
     private String mLocation;
@@ -53,6 +56,7 @@ public class MainActivity extends Activity implements
     protected Location mLastLocation;
 
     private final int ALARM_ID = 1248940;
+    private final String PREFS_NAME = "TaskRecorderPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,10 @@ public class MainActivity extends Activity implements
 
         // Start up Google client
         buildGoogleApiClient();
+
+        // Start SharedPreferences
+        mPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        mEditor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
 
         mAlarmTimeString = "Cannot set alarm!";
 
