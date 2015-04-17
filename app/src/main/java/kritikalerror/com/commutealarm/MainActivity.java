@@ -40,6 +40,7 @@ public class MainActivity extends Activity implements
     private EditText mHabitBox;
     private EditText mEventBox;
     private ToggleButton mAlarmToggle;
+    private Button mSaveButton;
 
     private AlarmManager mAlarmManager;
     private PendingIntent mPendingIntent;
@@ -57,6 +58,10 @@ public class MainActivity extends Activity implements
 
     private final int ALARM_ID = 1248940;
     private final String PREFS_NAME = "TaskRecorderPrefs";
+    private final String TIME_KEY = "Time";
+    private final String LOCATION_KEY = "Location";
+    private final String HABIT_KEY = "Habit";
+    private final String EVENT_KEY = "Event";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +83,43 @@ public class MainActivity extends Activity implements
         mAlarmTextView = (TextView) findViewById(R.id.alarmNotification);
         mAlarmRingerView = (TextView) findViewById(R.id.ringer);
         mHabitBox = (EditText) findViewById(R.id.prepareTime);
+        mSaveButton = (Button) findViewById(R.id.button);
 
         //DEBUG ONLY!
-        mTimeBox.setText("23:00");
-        mLocationBox.setText("1 Infinite Loop");
-        mHabitBox.setText("30 minutes");
-        mEventBox.setText("09:30");
+        //mTimeBox.setText("23:00");
+        //mLocationBox.setText("1 Infinite Loop");
+        //mHabitBox.setText("30 minutes");
+        //mEventBox.setText("09:30");
+
+        // Get values from SharedPrefs
+        String time = mPreferences.getString(TIME_KEY, null);
+        if(time != null) {
+            mTimeBox.setText(time);
+        }
+        else {
+            mTimeBox.setText("");
+        }
+        String location = mPreferences.getString(LOCATION_KEY, null);
+        if(location != null) {
+            mLocationBox.setText(location);
+        }
+        else {
+            mLocationBox.setText("");
+        }
+        String habit = mPreferences.getString(HABIT_KEY, null);
+        if(habit != null) {
+            mHabitBox.setText(habit);
+        }
+        else {
+            mHabitBox.setText("");
+        }
+        String event = mPreferences.getString(EVENT_KEY, null);
+        if(event != null) {
+            mEventBox.setText(event);
+        }
+        else {
+            mEventBox.setText("");
+        }
 
         mTime = mTimeBox.getText().toString();
         mLocation = mLocationBox.getText().toString();
