@@ -128,6 +128,18 @@ public class MainActivity extends Activity implements
 
         mAlarmToggle = (ToggleButton) findViewById(R.id.alarmToggle);
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                mEditor.putString(TIME_KEY, mTime);
+                mEditor.putString(LOCATION_KEY, mLocation);
+                mEditor.putString(HABIT_KEY, mHabit);
+                mEditor.putString(EVENT_KEY, mEventTime);
+                mEditor.commit();
+            }
+        });
     }
 
     public void setAlarmText(String alarmText)
