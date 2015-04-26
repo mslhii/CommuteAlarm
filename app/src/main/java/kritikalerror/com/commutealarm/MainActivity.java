@@ -133,10 +133,10 @@ public class MainActivity extends Activity implements
 
             @Override
             public void onClick(View view) {
-                mEditor.putString(TIME_KEY, mTime);
-                mEditor.putString(LOCATION_KEY, mLocation);
-                mEditor.putString(HABIT_KEY, mHabit);
-                mEditor.putString(EVENT_KEY, mEventTime);
+                mEditor.putString(TIME_KEY, mTimeBox.getText().toString());
+                mEditor.putString(LOCATION_KEY, mLocationBox.getText().toString());
+                mEditor.putString(HABIT_KEY, mHabitBox.getText().toString());
+                mEditor.putString(EVENT_KEY, mEventBox.getText().toString());
                 mEditor.commit();
             }
         });
