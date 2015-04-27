@@ -58,6 +58,7 @@ public class MainActivity extends Activity implements
 
     private final int ALARM_ID = 1248940;
     private final String PREFS_NAME = "TaskRecorderPrefs";
+    private final String CUR_LOC_KEY = "CurrentLocation";
     private final String TIME_KEY = "Time";
     private final String LOCATION_KEY = "Location";
     private final String HABIT_KEY = "Habit";
@@ -137,6 +138,8 @@ public class MainActivity extends Activity implements
                 mEditor.putString(LOCATION_KEY, mLocationBox.getText().toString());
                 mEditor.putString(HABIT_KEY, mHabitBox.getText().toString());
                 mEditor.putString(EVENT_KEY, mEventBox.getText().toString());
+                mEditor.putString(CUR_LOC_KEY, Double.toString(mLastLocation.getLatitude()) +
+                        "," + Double.toString(mLastLocation.getLongitude()));
                 mEditor.commit();
             }
         });
@@ -186,7 +189,6 @@ public class MainActivity extends Activity implements
                 mTime = mTime.replace("12:", "00:");
             }
 
-            //TODO: make text boxes SharedPreferences
             mLocation = mLocationBox.getText().toString();
             //new getTimeTask().execute(mLocation);
 
@@ -268,8 +270,8 @@ public class MainActivity extends Activity implements
                 }
                 else
                 {
-                    //TODO: else use sharedprefs to get last location
-                    locParams = "Palo Alto";
+                    //locParams = "Palo Alto";
+                    locParams = mPreferences.getString(CUR_LOC_KEY, null);
                 }
                 queryResult = AlarmSupport.queryGoogle(locParams, params[0]);
                 mAlarmTimeString = queryResult;
