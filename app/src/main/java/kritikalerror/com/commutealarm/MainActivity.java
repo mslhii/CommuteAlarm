@@ -190,6 +190,8 @@ public class MainActivity extends Activity implements
             }
 
             mLocation = mLocationBox.getText().toString();
+
+            //TODO: old method for debugging!
             //new getTimeTask().execute(mLocation);
 
             Intent updateServiceIntent = new Intent(this, TrafficUpdateService.class);
