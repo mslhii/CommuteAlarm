@@ -80,6 +80,8 @@ public class TrafficUpdateService extends Service {
             mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
             mHour = mCalendar.get(Calendar.HOUR);
             mMinute = mCalendar.get(Calendar.MINUTE);
+
+            Log.d("TUService", "Starting asynctask!");
         }
 
         @Override
