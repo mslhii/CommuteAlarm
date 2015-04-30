@@ -61,6 +61,8 @@ public class TrafficUpdateService extends Service {
 
         //TODO: add repeating time to execute this
         new getTimeTask().execute(mLocation);
+
+        //TODO: return time to mainactivity
         return START_NOT_STICKY;
     }
 
