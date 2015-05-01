@@ -62,7 +62,6 @@ public class TrafficUpdateService extends Service {
         //TODO: add repeating time to execute this
         new getTimeTask().execute(mLocation);
 
-        //TODO: return time to mainactivity
         return START_NOT_STICKY;
     }
 
@@ -136,6 +135,7 @@ public class TrafficUpdateService extends Service {
 
             Log.e("POST", "Calendar time is: " + mCalendar.getTime().toString());
 
+            //TODO: turn into notification
             Toast.makeText(TrafficUpdateService.this, mAlarmTimeString, Toast.LENGTH_LONG).show();
         }
 
