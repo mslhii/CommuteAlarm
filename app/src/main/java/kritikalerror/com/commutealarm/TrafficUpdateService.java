@@ -13,6 +13,8 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Michael on 4/9/2015.
@@ -34,6 +36,9 @@ public class TrafficUpdateService extends Service {
 
     private AlarmManager mAlarmManager;
     private PendingIntent mPendingIntent;
+
+    private final int TIMER_DELAY = 100;
+    private final int TIMER_PERIOD = 3000;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -59,8 +64,13 @@ public class TrafficUpdateService extends Service {
 
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-        //TODO: add repeating time to execute this
-        new getTimeTask().execute(mLocation);
+        Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                new getTimeTask().execute(mLocation);
+            }
+        }, TIMER_DELAY, TIMER_PERIOD);
 
         return START_NOT_STICKY;
     }
