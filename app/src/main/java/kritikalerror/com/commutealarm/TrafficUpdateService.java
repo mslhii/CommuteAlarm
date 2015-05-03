@@ -38,7 +38,7 @@ public class TrafficUpdateService extends Service {
     private PendingIntent mPendingIntent;
 
     private final int TIMER_DELAY = 100;
-    private final int TIMER_PERIOD = 3000;
+    private final int TIMER_PERIOD = 60 * 60 * 30; // 30 minute intervals
 
     @Override
     public IBinder onBind(Intent intent) {
