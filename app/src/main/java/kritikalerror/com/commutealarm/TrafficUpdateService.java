@@ -48,6 +48,8 @@ public class TrafficUpdateService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
+        Log.e("TRAFFICSERVICE", "TrafficUpdateService started!");
+
         Bundle b = intent.getExtras();
         mTime = b.getString("time");
         mHabit = b.getString("habit");
@@ -64,6 +66,9 @@ public class TrafficUpdateService extends Service {
 
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
+        new getTimeTask().execute(mLocation);
+
+        /*
         Timer t = new Timer();
         t.schedule(new TimerTask() {
             @Override
@@ -71,6 +76,7 @@ public class TrafficUpdateService extends Service {
                 new getTimeTask().execute(mLocation);
             }
         }, TIMER_DELAY, TIMER_PERIOD);
+        */
 
         return START_NOT_STICKY;
     }
@@ -146,7 +152,7 @@ public class TrafficUpdateService extends Service {
             Log.e("POST", "Calendar time is: " + mCalendar.getTime().toString());
 
             //TODO: turn into notification
-            Toast.makeText(TrafficUpdateService.this, mAlarmTimeString, Toast.LENGTH_LONG).show();
+            Toast.makeText(TrafficUpdateService.this, "Alarm has been set to: " + mAlarmTimeString, Toast.LENGTH_LONG).show();
         }
 
         private String subtractTime(String inTime) {
