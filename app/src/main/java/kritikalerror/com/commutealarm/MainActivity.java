@@ -194,12 +194,25 @@ public class MainActivity extends Activity implements
             //TODO: old method for debugging!
             //new getTimeTask().execute(mLocation);
 
+            // Put current location in string
+            String locParams = "";
+            if(mLastLocation != null) {
+                locParams = String.valueOf(mLastLocation.getLatitude()) + "," +
+                        String.valueOf(mLastLocation.getLongitude());
+            }
+            else
+            {
+                //locParams = "Palo Alto";
+                locParams = mPreferences.getString(CUR_LOC_KEY, null);
+            }
+
             Intent updateServiceIntent = new Intent(this, TrafficUpdateService.class);
             Bundle sendBundle = new Bundle();
             sendBundle.putString("time", mTime);
             sendBundle.putString("habit", mHabit);
             sendBundle.putString("event", mEventTime);
             sendBundle.putString("location", mLocation);
+            sendBundle.putString("curloc", locParams);
             updateServiceIntent.putExtras(sendBundle);
             startService(updateServiceIntent);
         }
@@ -242,6 +255,7 @@ public class MainActivity extends Activity implements
         return super.onOptionsItemSelected(item);
     }
 
+    //DEPRECATED: for debugging only!
     private class getTimeTask extends AsyncTask<String, Void, String> {
         private Calendar mCalendar;
         private int mYear = 0;

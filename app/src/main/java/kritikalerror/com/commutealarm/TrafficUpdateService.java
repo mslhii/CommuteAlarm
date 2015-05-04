@@ -28,6 +28,7 @@ public class TrafficUpdateService extends Service {
     private int mMinute = 0;
 
     protected String mLocation;
+    protected String mCurLocation;
     protected String mTime;
     protected String mEventTime;
     protected String mHabit;
@@ -55,6 +56,7 @@ public class TrafficUpdateService extends Service {
         mHabit = b.getString("habit");
         mEventTime = b.getString("event");
         mLocation = b.getString("location");
+        mCurLocation = b.getString("curloc");
 
         // We don't want a null instance
         mCalendar = Calendar.getInstance();
@@ -106,7 +108,7 @@ public class TrafficUpdateService extends Service {
             String queryResult = "Cannot get result!";
             String locParams = "";
             try {
-                locParams = mLocation;
+                locParams = mCurLocation;
                 queryResult = AlarmSupport.queryGoogle(locParams, params[0]);
                 mAlarmTimeString = queryResult;
             }
