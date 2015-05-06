@@ -86,7 +86,8 @@ public class TrafficUpdateService extends Service {
     @Override
     public void onDestroy()
     {
-
+        Intent stopAlarmIntent = new Intent(this, AlarmService.class);
+        stopService(stopAlarmIntent);
     }
 
     private class getTimeTask extends AsyncTask<String, Void, String> {
