@@ -1,6 +1,8 @@
 package kritikalerror.com.commutealarm;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
@@ -88,6 +90,18 @@ public class TrafficUpdateService extends Service {
     {
         Intent stopAlarmIntent = new Intent(this, AlarmService.class);
         stopService(stopAlarmIntent);
+    }
+
+    public void createNotification(String message) {
+        Intent intent = new Intent();
+        PendingIntent setIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        Notification notification = new Notification.Builder(this)
+                .setContentTitle("Alarm set to: " + message)
+                .setContentText("Subject").setSmallIcon(R.drawable.ic_launcher)
+                .setContentIntent(setIntent).build();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notificationManager.notify(0, notification);
     }
 
     private class getTimeTask extends AsyncTask<String, Void, String> {
