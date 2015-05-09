@@ -70,9 +70,9 @@ public class TrafficUpdateService extends Service {
 
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-        new getTimeTask().execute(mLocation);
+        //new getTimeTask().execute(mLocation);
 
-        /*
+
         Timer t = new Timer();
         t.schedule(new TimerTask() {
             @Override
@@ -80,7 +80,7 @@ public class TrafficUpdateService extends Service {
                 new getTimeTask().execute(mLocation);
             }
         }, TIMER_DELAY, TIMER_PERIOD);
-        */
+
 
         return START_NOT_STICKY;
     }
