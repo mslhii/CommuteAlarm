@@ -72,7 +72,6 @@ public class TrafficUpdateService extends Service {
 
         //new getTimeTask().execute(mLocation);
 
-
         Timer t = new Timer();
         t.schedule(new TimerTask() {
             @Override
@@ -88,6 +87,11 @@ public class TrafficUpdateService extends Service {
     @Override
     public void onDestroy()
     {
+        Intent myIntent = new Intent(TrafficUpdateService.this, AlarmReceiver.class);
+        mPendingIntent = PendingIntent.getBroadcast(TrafficUpdateService.this, 8888, myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        mPendingIntent.cancel();
+        mAlarmManager.cancel(mPendingIntent);
+
         Intent stopAlarmIntent = new Intent(this, AlarmService.class);
         stopService(stopAlarmIntent);
     }
@@ -96,8 +100,8 @@ public class TrafficUpdateService extends Service {
         Intent intent = new Intent();
         PendingIntent setIntent = PendingIntent.getActivity(this, 0, intent, 0);
         Notification notification = new Notification.Builder(this)
-                .setContentTitle("Alarm set to: " + message)
-                .setContentText("Subject").setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle("Alarm has been set")
+                .setContentText(message).setSmallIcon(R.drawable.ic_launcher)
                 .setContentIntent(setIntent).build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
@@ -168,8 +172,8 @@ public class TrafficUpdateService extends Service {
 
             Log.e("POST", "Calendar time is: " + mCalendar.getTime().toString());
 
-            //TODO: turn into notification
             Toast.makeText(TrafficUpdateService.this, "Alarm has been set to: " + mAlarmTimeString, Toast.LENGTH_LONG).show();
+            createNotification("Alarm has been set to: " + mAlarmTimeString);
         }
 
         private String subtractTime(String inTime) {
