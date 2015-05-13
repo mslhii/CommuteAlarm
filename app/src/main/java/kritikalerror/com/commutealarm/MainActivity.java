@@ -55,6 +55,7 @@ public class MainActivity extends Activity implements
 
     protected String mAlarmTimeString;
     protected Location mLastLocation;
+    private boolean mIsToggleChecked = false;
 
     private final int ALARM_ID = 1248940;
     private final String PREFS_NAME = "TaskRecorderPrefs";
@@ -63,6 +64,7 @@ public class MainActivity extends Activity implements
     private final String LOCATION_KEY = "Location";
     private final String HABIT_KEY = "Habit";
     private final String EVENT_KEY = "Event";
+    private final String TOGGLE_KEY = "Toggle";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +123,7 @@ public class MainActivity extends Activity implements
         else {
             mEventBox.setText("");
         }
+        mIsToggleChecked = mPreferences.getBoolean(TOGGLE_KEY, false);
 
         mTime = mTimeBox.getText().toString();
         mLocation = mLocationBox.getText().toString();
@@ -129,6 +132,8 @@ public class MainActivity extends Activity implements
 
         mAlarmToggle = (ToggleButton) findViewById(R.id.alarmToggle);
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        mAlarmToggle.setChecked(mIsToggleChecked);
 
         mSaveButton.setOnClickListener(new View.OnClickListener() {
 
