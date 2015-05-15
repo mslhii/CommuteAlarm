@@ -145,6 +145,7 @@ public class MainActivity extends Activity implements
                 mEditor.putString(EVENT_KEY, mEventBox.getText().toString());
                 mEditor.putString(CUR_LOC_KEY, Double.toString(mLastLocation.getLatitude()) +
                         "," + Double.toString(mLastLocation.getLongitude()));
+                mEditor.putBoolean(TOGGLE_KEY, mAlarmToggle.isChecked());
                 mEditor.commit();
             }
         });
