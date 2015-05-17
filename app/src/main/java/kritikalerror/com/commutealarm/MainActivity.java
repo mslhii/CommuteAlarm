@@ -414,28 +414,4 @@ public class MainActivity extends Activity implements
         Log.i("LOC", "Connection suspended");
         mGoogleApiClient.connect();
     }
-
-    /*
-    Debug ONLY!
-     */
-    /*
-    private void _setAlarm() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-        calendar.set(Calendar.MINUTE, (calendar.get(Calendar.MINUTE) + 1));
-        mAlarmTextView.setText("Alarm will be set to: \n" +
-                calendar.get(Calendar.HOUR_OF_DAY) +
-                ":" +
-                (calendar.get(Calendar.MINUTE) + 1));
-        Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
-        mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, ALARM_ID, myIntent, 0);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            mAlarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), mPendingIntent);
-        }
-        else
-        {
-            mAlarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), mPendingIntent);
-        }
-    }
-    */
 }
