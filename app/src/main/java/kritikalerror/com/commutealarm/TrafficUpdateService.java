@@ -173,7 +173,8 @@ public class TrafficUpdateService extends Service {
             Log.e("POST", "Calendar time is: " + mCalendar.getTime().toString());
 
             Toast.makeText(TrafficUpdateService.this, "Alarm has been set to: " + mAlarmTimeString, Toast.LENGTH_LONG).show();
-            createNotification("Alarm has been set to: " + mAlarmTimeString);
+            //createNotification("Alarm has been set to: " + mAlarmTimeString);
+            AlarmSupport.createNotification(getApplicationContext(), "Alarm has been set to: " + mAlarmTimeString);
         }
 
         private String subtractTime(String inTime) {

@@ -40,6 +40,7 @@ public class AlarmService extends Service {
         mRingtone.play();
 
         //sendNotification("Alarm Ringing!");
+        AlarmSupport.createNotification(getApplicationContext(), "Alarm Ringing!");
 
         return START_NOT_STICKY;
     }
