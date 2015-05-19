@@ -39,7 +39,6 @@ public class AlarmService extends Service {
         mRingtone = RingtoneManager.getRingtone(this, alarmUri);
         mRingtone.play();
 
-        //sendNotification("Alarm Ringing!");
         AlarmSupport.createNotification(getApplicationContext(), "Alarm Ringing!");
 
         return START_NOT_STICKY;
@@ -53,25 +52,5 @@ public class AlarmService extends Service {
 
         RingtoneManager ringtoneManager = new RingtoneManager(this);
         ringtoneManager.stopPreviousRingtone();
-    }
-
-    private void sendNotification(String msg) {
-        Log.d("AlarmService", "Preparing to send notification...: " + msg);
-
-        alarmNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        Intent resultIntent = new Intent(this, MainActivity.class);
-
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
-
-        NotificationCompat.Builder alarmNotificationBuilder = new NotificationCompat.Builder(this)
-                .setContentTitle("Alarm")
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentText(msg);
-
-        alarmNotificationBuilder.setContentIntent(contentIntent);
-        alarmNotificationManager.notify(0, alarmNotificationBuilder.build());
-
-        Log.d("AlarmService", "Notification sent.");
     }
 }

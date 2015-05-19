@@ -240,6 +240,10 @@ public class MainActivity extends Activity implements
             setAlarmText("Alarm Off");
             Log.d("MyActivity", "Alarm Off");
         }
+
+        // Update the SharedPrefs too
+        mEditor.putBoolean(TOGGLE_KEY, mAlarmToggle.isChecked());
+        mEditor.commit();
     }
 
     @Override
