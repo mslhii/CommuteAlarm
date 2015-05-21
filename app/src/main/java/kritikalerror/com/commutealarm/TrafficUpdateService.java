@@ -15,6 +15,8 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,6 +41,8 @@ public class TrafficUpdateService extends Service {
 
     private AlarmManager mAlarmManager;
     private PendingIntent mPendingIntent;
+
+    private PriorityQueue<PendingIntent> mIntentQueue;
 
     private final int TIMER_DELAY = 100;
     private final int TIMER_PERIOD = 60 * 60 * 30; // 30 minute intervals
@@ -68,8 +72,15 @@ public class TrafficUpdateService extends Service {
         mHour = mCalendar.get(Calendar.HOUR);
         mMinute = mCalendar.get(Calendar.MINUTE);
 
+        // Start Queue of alarms
+        mIntentQueue = new PriorityQueue<PendingIntent>();
+
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
+        // If there any previous alarms, remove them
+        //mAlarmManager.cancel();
+
+        //DEBUGGING ONLY!
         //new getTimeTask().execute(mLocation);
 
         Timer t = new Timer();
@@ -88,7 +99,7 @@ public class TrafficUpdateService extends Service {
     public void onDestroy()
     {
         Intent myIntent = new Intent(TrafficUpdateService.this, AlarmReceiver.class);
-        mPendingIntent = PendingIntent.getBroadcast(TrafficUpdateService.this, 8888, myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        mPendingIntent = PendingIntent.getBroadcast(TrafficUpdateService.this, AlarmSupport.ALARM_ID, myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         mPendingIntent.cancel();
         mAlarmManager.cancel(mPendingIntent);
 
@@ -106,6 +117,11 @@ public class TrafficUpdateService extends Service {
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notificationManager.notify(0, notification);
+    }
+
+    private void destroyAllAlarms()
+    {
+        //
     }
 
     private class getTimeTask extends AsyncTask<String, Void, String> {
@@ -161,7 +177,7 @@ public class TrafficUpdateService extends Service {
             }
 
             Intent myIntent = new Intent(TrafficUpdateService.this, AlarmReceiver.class);
-            mPendingIntent = PendingIntent.getBroadcast(TrafficUpdateService.this, 123124, myIntent, 0);
+            mPendingIntent = PendingIntent.getBroadcast(TrafficUpdateService.this, AlarmSupport.ALARM_ID, myIntent, 0);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                 mAlarmManager.setExact(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), mPendingIntent);
             }

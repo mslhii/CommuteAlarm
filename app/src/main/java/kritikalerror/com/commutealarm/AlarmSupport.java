@@ -28,6 +28,7 @@ import java.util.Date;
 public class AlarmSupport {
 
     public static String API_KEY = "AIzaSyAQJ0PLfQ0pBmXJ0TPkBHFbLYL-ATYtk-A";
+    public static final int ALARM_ID = 1248940;
 
     public AlarmSupport() {
         // Static class

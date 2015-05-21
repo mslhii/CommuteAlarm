@@ -57,7 +57,6 @@ public class MainActivity extends Activity implements
     protected Location mLastLocation;
     private boolean mIsToggleChecked = false;
 
-    private final int ALARM_ID = 1248940;
     private final String PREFS_NAME = "TaskRecorderPrefs";
     private final String CUR_LOC_KEY = "CurrentLocation";
     private final String TIME_KEY = "Time";
@@ -226,7 +225,7 @@ public class MainActivity extends Activity implements
         {
             mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
-            mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, ALARM_ID, myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, AlarmSupport.ALARM_ID, myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
             mPendingIntent.cancel();
             mAlarmManager.cancel(mPendingIntent);
 
@@ -332,7 +331,7 @@ public class MainActivity extends Activity implements
             }
 
             Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
-            mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, ALARM_ID, myIntent, 0);
+            mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, AlarmSupport.ALARM_ID, myIntent, 0);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                 mAlarmManager.setExact(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), mPendingIntent);
             }
