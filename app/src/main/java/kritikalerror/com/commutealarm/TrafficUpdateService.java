@@ -107,18 +107,6 @@ public class TrafficUpdateService extends Service {
         stopService(stopAlarmIntent);
     }
 
-    public void createNotification(String message) {
-        Intent intent = new Intent();
-        PendingIntent setIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        Notification notification = new Notification.Builder(this)
-                .setContentTitle("Alarm has been set")
-                .setContentText(message).setSmallIcon(R.drawable.ic_launcher)
-                .setContentIntent(setIntent).build();
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify(0, notification);
-    }
-
     private void destroyAllAlarms()
     {
         //
@@ -189,7 +177,6 @@ public class TrafficUpdateService extends Service {
             Log.e("POST", "Calendar time is: " + mCalendar.getTime().toString());
 
             Toast.makeText(TrafficUpdateService.this, "Alarm has been set to: " + mAlarmTimeString, Toast.LENGTH_LONG).show();
-            //createNotification("Alarm has been set to: " + mAlarmTimeString);
             AlarmSupport.createNotification(getApplicationContext(), "Alarm has been set to: " + mAlarmTimeString);
         }
 
