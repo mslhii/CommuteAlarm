@@ -83,6 +83,7 @@ public class TrafficUpdateService extends Service {
         //DEBUGGING ONLY!
         //new getTimeTask().execute(mLocation);
 
+        //TODO: need to keep timer running until alarm rings, then stop it
         Timer t = new Timer();
         t.schedule(new TimerTask() {
             @Override
@@ -91,25 +92,39 @@ public class TrafficUpdateService extends Service {
             }
         }, TIMER_DELAY, TIMER_PERIOD);
 
+        Toast.makeText(TrafficUpdateService.this, "Stopping TrafficUpdateService!", Toast.LENGTH_LONG).show();
+        Log.e("STOPTRAFFIC", "Stopping TrafficUpdateService!");
 
         return START_NOT_STICKY;
     }
 
+    /**
+     * Destroy the most recent alarm set and quit the service
+     */
     @Override
     public void onDestroy()
     {
-        Intent myIntent = new Intent(TrafficUpdateService.this, AlarmReceiver.class);
-        mPendingIntent = PendingIntent.getBroadcast(TrafficUpdateService.this, AlarmSupport.ALARM_ID, myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-        mPendingIntent.cancel();
-        mAlarmManager.cancel(mPendingIntent);
+//        Intent myIntent = new Intent(TrafficUpdateService.this, AlarmReceiver.class);
+//        mPendingIntent = PendingIntent.getBroadcast(TrafficUpdateService.this, AlarmSupport.ALARM_ID, myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+//        mPendingIntent.cancel();
+//        mAlarmManager.cancel(mPendingIntent);
+//
+//        Intent stopAlarmIntent = new Intent(this, AlarmService.class);
+//        stopService(stopAlarmIntent);
 
-        Intent stopAlarmIntent = new Intent(this, AlarmService.class);
-        stopService(stopAlarmIntent);
+        destroyAllAlarms();
     }
 
     private void destroyAllAlarms()
     {
-        //
+        for(PendingIntent pendingIntent : mIntentQueue)
+        {
+            pendingIntent.cancel();
+            mAlarmManager.cancel(pendingIntent);
+
+            Intent stopAlarmIntent = new Intent(this, AlarmService.class);
+            stopService(stopAlarmIntent);
+        }
     }
 
     private class getTimeTask extends AsyncTask<String, Void, String> {

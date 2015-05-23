@@ -211,6 +211,8 @@ public class MainActivity extends Activity implements
                 locParams = mPreferences.getString(CUR_LOC_KEY, null);
             }
 
+            Toast.makeText(MainActivity.this, "Starting TrafficUpdateService!", Toast.LENGTH_LONG).show();
+            Log.e("STARTTRAFFIC", "Starting TrafficUpdateService!");
             Intent updateServiceIntent = new Intent(this, TrafficUpdateService.class);
             Bundle sendBundle = new Bundle();
             sendBundle.putString("time", mTime);
