@@ -25,6 +25,7 @@ import java.util.TimerTask;
  */
 public class TrafficUpdateService extends Service {
     private Calendar mCalendar;
+    private long mCurrentAlarmTime = 0;
     private int mYear = 0;
     private int mDay = 0;
     private int mMonth = 0;
@@ -44,9 +45,6 @@ public class TrafficUpdateService extends Service {
 
     private PriorityQueue<PendingIntent> mIntentQueue;
 
-    private final int TIMER_DELAY = 100;
-    private final int TIMER_PERIOD = 60 * 60 * 30; // 30 minute intervals
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -56,6 +54,10 @@ public class TrafficUpdateService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         Log.e("TRAFFICSERVICE", "TrafficUpdateService started!");
+
+        // Timer constants
+        final int TIMER_DELAY = 100;
+        final int TIMER_PERIOD = 60 * 60 * 30; // 30 minute intervals
 
         Bundle b = intent.getExtras();
         mTime = b.getString("time");
@@ -72,6 +74,9 @@ public class TrafficUpdateService extends Service {
         mHour = mCalendar.get(Calendar.HOUR);
         mMinute = mCalendar.get(Calendar.MINUTE);
 
+        // Initialize mCurrentAlarmTime for the first run
+        mCurrentAlarmTime = System.currentTimeMillis() + (30 * 1000);
+
         // Start Queue of alarms
         mIntentQueue = new PriorityQueue<PendingIntent>();
 
@@ -83,12 +88,20 @@ public class TrafficUpdateService extends Service {
         //DEBUGGING ONLY!
         //new getTimeTask().execute(mLocation);
 
-        //TODO: need to keep timer running until alarm rings, then stop it
-        Timer t = new Timer();
+        // Keep timer running until alarm rings, then stop it
+        final Timer t = new Timer();
         t.schedule(new TimerTask() {
             @Override
             public void run() {
-                new getTimeTask().execute(mLocation);
+                if(System.currentTimeMillis() < mCurrentAlarmTime) {
+                    Log.e("STOPTIMER", "Timer still running!");
+                    new getTimeTask().execute(mLocation);
+                }
+                else
+                {
+                    Log.e("STOPTIMER", "Canceling timer!");
+                    t.cancel();
+                }
             }
         }, TIMER_DELAY, TIMER_PERIOD);
 
@@ -192,6 +205,9 @@ public class TrafficUpdateService extends Service {
             }
 
             Log.e("POST", "Calendar time is: " + mCalendar.getTime().toString());
+
+            // Update alarm time member variable
+            mCurrentAlarmTime = mCalendar.getTimeInMillis();
 
             Toast.makeText(TrafficUpdateService.this, "Alarm has been set to: " + mAlarmTimeString, Toast.LENGTH_LONG).show();
             AlarmSupport.createNotification(getApplicationContext(), "Alarm has been set to: " + mAlarmTimeString);
