@@ -92,8 +92,8 @@ public class TrafficUpdateService extends Service {
             }
         }, TIMER_DELAY, TIMER_PERIOD);
 
-        Toast.makeText(TrafficUpdateService.this, "Stopping TrafficUpdateService!", Toast.LENGTH_LONG).show();
-        Log.e("STOPTRAFFIC", "Stopping TrafficUpdateService!");
+        Toast.makeText(TrafficUpdateService.this, "TrafficUpdateService finished loading!", Toast.LENGTH_LONG).show();
+        Log.e("STOPTRAFFIC", "TrafficUpdateService finished loading!");
 
         return START_NOT_STICKY;
     }
@@ -112,6 +112,8 @@ public class TrafficUpdateService extends Service {
 //        Intent stopAlarmIntent = new Intent(this, AlarmService.class);
 //        stopService(stopAlarmIntent);
 
+        Toast.makeText(TrafficUpdateService.this, "Stopping TrafficUpdateService!", Toast.LENGTH_LONG).show();
+        Log.e("STOPTRAFFIC", "Stopping TrafficUpdateService!");
         destroyAllAlarms();
     }
 
