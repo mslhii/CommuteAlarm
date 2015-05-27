@@ -140,6 +140,9 @@ public class TrafficUpdateService extends Service {
             Intent stopAlarmIntent = new Intent(this, AlarmService.class);
             stopService(stopAlarmIntent);
         }
+
+        // Clear Queue since we're not popping all elements
+        mIntentQueue.clear();
     }
 
     private class getTimeTask extends AsyncTask<String, Void, String> {
