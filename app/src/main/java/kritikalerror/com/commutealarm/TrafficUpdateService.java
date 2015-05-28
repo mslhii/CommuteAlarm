@@ -44,6 +44,7 @@ public class TrafficUpdateService extends Service {
     private PendingIntent mPendingIntent;
 
     private PriorityQueue<PendingIntent> mIntentQueue;
+    private Timer mTimer;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -89,8 +90,8 @@ public class TrafficUpdateService extends Service {
         //new getTimeTask().execute(mLocation);
 
         // Keep timer running until alarm rings, then stop it
-        final Timer t = new Timer();
-        t.schedule(new TimerTask() {
+        mTimer = new Timer();
+        mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 if(System.currentTimeMillis() < mCurrentAlarmTime) {
@@ -100,7 +101,7 @@ public class TrafficUpdateService extends Service {
                 else
                 {
                     Log.e("STOPTIMER", "Canceling timer!");
-                    t.cancel();
+                    mTimer.cancel();
                 }
             }
         }, TIMER_DELAY, TIMER_PERIOD);
@@ -124,6 +125,9 @@ public class TrafficUpdateService extends Service {
 //
 //        Intent stopAlarmIntent = new Intent(this, AlarmService.class);
 //        stopService(stopAlarmIntent);
+
+        // Destroy the timer
+        mTimer.cancel();
 
         Toast.makeText(TrafficUpdateService.this, "Stopping TrafficUpdateService!", Toast.LENGTH_LONG).show();
         Log.e("STOPTRAFFIC", "Stopping TrafficUpdateService!");
