@@ -57,7 +57,7 @@ public class TrafficUpdateService extends Service {
         Log.e("TRAFFICSERVICE", "TrafficUpdateService started!");
 
         // Timer constants
-        final int TIMER_DELAY = 100;
+        final int TIMER_DELAY = 100; // in milliseconds
         final int TIMER_PERIOD = 60 * 60 * 30; // 30 minute intervals
 
         Bundle b = intent.getExtras();
@@ -90,8 +90,7 @@ public class TrafficUpdateService extends Service {
         //new getTimeTask().execute(mLocation);
 
         // Keep timer running until alarm rings, then stop it
-        mTimer = new Timer();
-        mTimer.schedule(new TimerTask() {
+        TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
                 if(System.currentTimeMillis() < mCurrentAlarmTime) {
@@ -100,11 +99,19 @@ public class TrafficUpdateService extends Service {
                 }
                 else
                 {
-                    Log.e("STOPTIMER", "Canceling timer!");
-                    mTimer.cancel();
+                    if(mTimer != null) {
+                        Log.e("STOPTIMER", "Canceling timer!");
+                        mTimer.cancel();
+                        mTimer.purge();
+                        mTimer = null;
+                    }
                 }
             }
-        }, TIMER_DELAY, TIMER_PERIOD);
+        };
+        //mTimer = new Timer();
+        mTimer = new Timer("TRAFFIC_SCHEDULER", true);
+        //mTimer.schedule(timerTask, TIMER_DELAY, TIMER_PERIOD);
+        mTimer.scheduleAtFixedRate(timerTask, TIMER_DELAY, TIMER_PERIOD);
 
         Toast.makeText(TrafficUpdateService.this, "TrafficUpdateService finished loading!", Toast.LENGTH_LONG).show();
         Log.e("STOPTRAFFIC", "TrafficUpdateService finished loading!");
@@ -127,7 +134,11 @@ public class TrafficUpdateService extends Service {
 //        stopService(stopAlarmIntent);
 
         // Destroy the timer
-        mTimer.cancel();
+        if(mTimer != null) {
+            mTimer.cancel();
+            mTimer.purge();
+            mTimer = null;
+        }
 
         Toast.makeText(TrafficUpdateService.this, "Stopping TrafficUpdateService!", Toast.LENGTH_LONG).show();
         Log.e("STOPTRAFFIC", "Stopping TrafficUpdateService!");
