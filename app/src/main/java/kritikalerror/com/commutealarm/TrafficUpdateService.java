@@ -200,6 +200,10 @@ public class TrafficUpdateService extends Service {
                 mAlarmTimeString = "Cannot set time!";
             }
 
+            if(mAlarmTimeString == null) {
+                mAlarmTimeString = "Cannot set time, it is empty!";
+            }
+
             // Add proper dates
             mCalendar.set(Calendar.YEAR, mYear);
             mCalendar.set(Calendar.MONTH, mMonth);
