@@ -83,9 +83,6 @@ public class TrafficUpdateService extends Service {
 
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-        // If there any previous alarms, remove them
-        //mAlarmManager.cancel();
-
         //DEBUGGING ONLY!
         //new getTimeTask().execute(mLocation);
 
