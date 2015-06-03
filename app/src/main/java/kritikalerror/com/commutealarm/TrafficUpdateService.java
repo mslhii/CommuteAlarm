@@ -122,14 +122,6 @@ public class TrafficUpdateService extends Service {
     @Override
     public void onDestroy()
     {
-//        Intent myIntent = new Intent(TrafficUpdateService.this, AlarmReceiver.class);
-//        mPendingIntent = PendingIntent.getBroadcast(TrafficUpdateService.this, AlarmSupport.ALARM_ID, myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-//        mPendingIntent.cancel();
-//        mAlarmManager.cancel(mPendingIntent);
-//
-//        Intent stopAlarmIntent = new Intent(this, AlarmService.class);
-//        stopService(stopAlarmIntent);
-
         // Destroy the timer
         if(mTimer != null) {
             mTimer.cancel();
