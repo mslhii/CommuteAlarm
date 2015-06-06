@@ -106,7 +106,6 @@ public class TrafficUpdateService extends Service {
             }
         };
 
-        //REMOVE COMMENTS LATER
         //mTimer = new Timer();
         mTimer = new Timer("TRAFFIC_SCHEDULER", true);
         //mTimer.schedule(timerTask, TIMER_DELAY, TIMER_PERIOD);
