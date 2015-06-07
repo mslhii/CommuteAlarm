@@ -33,7 +33,6 @@ import com.google.android.gms.location.LocationServices;
 public class MainActivity extends Activity implements
         ConnectionCallbacks, OnConnectionFailedListener {
 
-    private EditText mTimeBox;
     private EditText mLocationBox;
     private TextView mAlarmTextView;
     private TextView mAlarmRingerView;
@@ -80,7 +79,6 @@ public class MainActivity extends Activity implements
         mAlarmTimeString = "Cannot set alarm!";
 
         mEventBox = (EditText) findViewById(R.id.firstEvent);
-        mTimeBox = (EditText) findViewById(R.id.sleepEdit);
         mLocationBox = (EditText) findViewById(R.id.workEdit);
         mAlarmTextView = (TextView) findViewById(R.id.alarmNotification);
         mAlarmRingerView = (TextView) findViewById(R.id.ringer);
@@ -94,13 +92,6 @@ public class MainActivity extends Activity implements
         //mEventBox.setText("09:30");
 
         // Get values from SharedPrefs
-        String time = mPreferences.getString(TIME_KEY, null);
-        if(time != null) {
-            mTimeBox.setText(time);
-        }
-        else {
-            mTimeBox.setText("");
-        }
         String location = mPreferences.getString(LOCATION_KEY, null);
         if(location != null) {
             mLocationBox.setText(location);
@@ -124,7 +115,6 @@ public class MainActivity extends Activity implements
         }
         mIsToggleChecked = mPreferences.getBoolean(TOGGLE_KEY, false);
 
-        mTime = mTimeBox.getText().toString();
         mLocation = mLocationBox.getText().toString();
         mHabit = mHabitBox.getText().toString();
         mEventTime = mEventBox.getText().toString();
@@ -138,7 +128,6 @@ public class MainActivity extends Activity implements
 
             @Override
             public void onClick(View view) {
-                mEditor.putString(TIME_KEY, mTimeBox.getText().toString());
                 mEditor.putString(LOCATION_KEY, mLocationBox.getText().toString());
                 mEditor.putString(HABIT_KEY, mHabitBox.getText().toString());
                 mEditor.putString(EVENT_KEY, mEventBox.getText().toString());
@@ -183,7 +172,6 @@ public class MainActivity extends Activity implements
 
             Toast.makeText(MainActivity.this, "Setting Alarm!", Toast.LENGTH_SHORT).show();
 
-            mTime = mTimeBox.getText().toString();
             mHabit = mHabitBox.getText().toString();
             mEventTime = mEventBox.getText().toString();
 
