@@ -58,7 +58,6 @@ public class MainActivity extends Activity implements
 
     private final String PREFS_NAME = "TaskRecorderPrefs";
     private final String CUR_LOC_KEY = "CurrentLocation";
-    private final String TIME_KEY = "Time";
     private final String LOCATION_KEY = "Location";
     private final String HABIT_KEY = "Habit";
     private final String EVENT_KEY = "Event";
@@ -195,7 +194,6 @@ public class MainActivity extends Activity implements
             }
             else
             {
-                //locParams = "Palo Alto";
                 locParams = mPreferences.getString(CUR_LOC_KEY, null);
             }
 
@@ -252,116 +250,6 @@ public class MainActivity extends Activity implements
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    //DEPRECATED: for debugging only!
-    private class getTimeTask extends AsyncTask<String, Void, String> {
-        private Calendar mCalendar;
-        private int mYear = 0;
-        private int mDay = 0;
-        private int mMonth = 0;
-        private int mHour = 0;
-        private int mMinute = 0;
-
-        @Override
-        protected void onPreExecute() {
-            // We don't want a null instance
-            mCalendar = Calendar.getInstance();
-            mYear = mCalendar.get(Calendar.YEAR);
-            mMonth = mCalendar.get(Calendar.MONTH);
-            mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
-            mHour = mCalendar.get(Calendar.HOUR);
-            mMinute = mCalendar.get(Calendar.MINUTE);
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String queryResult = "Cannot get result!";
-            String locParams = "";
-            try {
-                if(mLastLocation != null) {
-                    locParams = String.valueOf(mLastLocation.getLatitude()) + "," +
-                            String.valueOf(mLastLocation.getLongitude());
-                }
-                else
-                {
-                    //locParams = "Palo Alto";
-                    locParams = mPreferences.getString(CUR_LOC_KEY, null);
-                }
-                queryResult = AlarmSupport.queryGoogle(locParams, params[0]);
-                mAlarmTimeString = queryResult;
-            }
-            catch (Exception e) {
-                Log.e("EXCEPTION", e.getMessage());
-            }
-            return queryResult;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            Log.e("TIME", s);
-
-            mAlarmTimeString = subtractTime(s);
-
-            if(mAlarmTimeString.equals("")) {
-                mAlarmTimeString = "Cannot set time!";
-            }
-
-            // Add proper dates
-            mCalendar.set(Calendar.YEAR, mYear);
-            mCalendar.set(Calendar.MONTH, mMonth);
-            // We need to determine the correct day to set the alarm to
-            if(mHour > mCalendar.get(Calendar.HOUR)) {
-                mCalendar.set(Calendar.DAY_OF_MONTH, mDay + 1);
-            }
-            else
-            {
-                mCalendar.set(Calendar.DAY_OF_MONTH, mDay);
-            }
-
-            Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
-            mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, AlarmSupport.ALARM_ID, myIntent, 0);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                mAlarmManager.setExact(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), mPendingIntent);
-            }
-            else
-            {
-                mAlarmManager.set(AlarmManager.RTC, mCalendar.getTimeInMillis(), mPendingIntent);
-            }
-
-            Log.e("POST", "Calendar time is: " + mCalendar.getTime().toString());
-
-            Toast.makeText(MainActivity.this, mAlarmTimeString, Toast.LENGTH_LONG).show();
-
-            mAlarmTextView.setText("Alarm will be set to: \n" + mCalendar.getTime().toString());
-        }
-
-        private String subtractTime(String inTime) {
-            SimpleDateFormat sdf  = new SimpleDateFormat("HH:mm");
-            Date eventDate = AlarmSupport.convertStringToTime(mEventTime);
-            mCalendar = AlarmSupport.dateToCalendar(eventDate);
-            String returnTime = "";
-            Log.e("TIMER", "Event time is: " + sdf.format(mCalendar.getTime()));
-
-            try {
-                if(inTime == null)
-                {
-                    throw new Exception("inTime is null!");
-                }
-                int seconds = Integer.parseInt(inTime);
-
-                // Make seconds negative
-                seconds = -seconds;
-                mCalendar.add(Calendar.SECOND, seconds);
-                returnTime = sdf.format(mCalendar.getTime());
-                Log.e("TIMER", "Finished is: " + returnTime);
-            }
-            catch (Exception e) {
-                Toast.makeText(MainActivity.this, "Cannot parse time! Reason: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            }
-            return returnTime;
-        }
     }
 
     /*
