@@ -34,7 +34,6 @@ public class TrafficUpdateService extends Service {
 
     protected String mLocation;
     protected String mCurLocation;
-    protected String mTime;
     protected String mEventTime;
     protected String mHabit;
 
@@ -61,7 +60,6 @@ public class TrafficUpdateService extends Service {
         final int TIMER_PERIOD = 60 * 60 * 30; // 30 minute intervals
 
         Bundle b = intent.getExtras();
-        mTime = b.getString("time");
         mHabit = b.getString("habit");
         mEventTime = b.getString("event");
         mLocation = b.getString("location");

@@ -47,7 +47,6 @@ public class MainActivity extends Activity implements
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
 
-    private String mTime;
     private String mLocation;
     private String mHabit;
     private String mEventTime;
@@ -174,13 +173,6 @@ public class MainActivity extends Activity implements
             mHabit = mHabitBox.getText().toString();
             mEventTime = mEventBox.getText().toString();
 
-            // Do a 12/24 hr check here
-            if(mTime.contains("am") && mTime.contains("12:"))
-            {
-                mTime = mTime.replace("am", "");
-                mTime = mTime.replace("12:", "00:");
-            }
-
             mLocation = mLocationBox.getText().toString();
 
             //TODO: old method for debugging!
@@ -201,7 +193,6 @@ public class MainActivity extends Activity implements
             Log.e("STARTTRAFFIC", "Starting TrafficUpdateService!");
             Intent updateServiceIntent = new Intent(this, TrafficUpdateService.class);
             Bundle sendBundle = new Bundle();
-            sendBundle.putString("time", mTime);
             sendBundle.putString("habit", mHabit);
             sendBundle.putString("event", mEventTime);
             sendBundle.putString("location", mLocation);
