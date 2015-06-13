@@ -83,12 +83,6 @@ public class MainActivity extends Activity implements
         mHabitBox = (EditText) findViewById(R.id.prepareTime);
         mSaveButton = (Button) findViewById(R.id.button);
 
-        //DEBUG ONLY!
-        //mTimeBox.setText("23:00");
-        //mLocationBox.setText("1 Infinite Loop");
-        //mHabitBox.setText("30 minutes");
-        //mEventBox.setText("09:30");
-
         // Get values from SharedPrefs
         String location = mPreferences.getString(LOCATION_KEY, null);
         if(location != null) {
