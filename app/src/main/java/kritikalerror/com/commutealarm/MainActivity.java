@@ -30,51 +30,47 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
 
-public class MainActivity extends Activity implements
-        ConnectionCallbacks, OnConnectionFailedListener {
+public class MainActivity extends Activity {
 
     private EditText mLocationBox;
     private TextView mAlarmTextView;
     private TextView mAlarmRingerView;
     private EditText mHabitBox;
     private EditText mEventBox;
-    private ToggleButton mAlarmToggle;
     private Button mSaveButton;
 
-    private AlarmManager mAlarmManager;
-    private PendingIntent mPendingIntent;
-    private GoogleApiClient mGoogleApiClient;
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
 
-    private String mLocation;
     private String mHabit;
     private String mEventTime;
 
     protected String mAlarmTimeString;
     protected Location mLastLocation;
-    private boolean mIsToggleChecked = false;
 
     private final String PREFS_NAME = "TaskRecorderPrefs";
-    private final String CUR_LOC_KEY = "CurrentLocation";
     private final String LOCATION_KEY = "Location";
     private final String HABIT_KEY = "Habit";
     private final String EVENT_KEY = "Event";
-    private final String TOGGLE_KEY = "Toggle";
+    private final String SETUP_KEY = "Setup";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Start up Google client
-        buildGoogleApiClient();
-
         // Start SharedPreferences
         mPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         mEditor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
 
-        mAlarmTimeString = "Cannot set alarm!";
+        // See if we need to setup first
+        boolean setup = mPreferences.getBoolean(SETUP_KEY, false);
+        if(setup)
+        {
+            Toast.makeText(MainActivity.this, "We already have data! Starting AlarmSetActivity!", Toast.LENGTH_LONG).show();
+            Intent setActivityIntent = new Intent(getApplicationContext(), AlarmSetActivity.class);
+            startActivity(setActivityIntent);
+        }
 
         mEventBox = (EditText) findViewById(R.id.firstEvent);
         mLocationBox = (EditText) findViewById(R.id.workEdit);
@@ -105,16 +101,9 @@ public class MainActivity extends Activity implements
         else {
             mEventBox.setText("");
         }
-        mIsToggleChecked = mPreferences.getBoolean(TOGGLE_KEY, false);
 
-        mLocation = mLocationBox.getText().toString();
         mHabit = mHabitBox.getText().toString();
         mEventTime = mEventBox.getText().toString();
-
-        mAlarmToggle = (ToggleButton) findViewById(R.id.alarmToggle);
-        mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-        mAlarmToggle.setChecked(mIsToggleChecked);
 
         mSaveButton.setOnClickListener(new View.OnClickListener() {
 
@@ -123,99 +112,31 @@ public class MainActivity extends Activity implements
                 mEditor.putString(LOCATION_KEY, mLocationBox.getText().toString());
                 mEditor.putString(HABIT_KEY, mHabitBox.getText().toString());
                 mEditor.putString(EVENT_KEY, mEventBox.getText().toString());
-                mEditor.putString(CUR_LOC_KEY, Double.toString(mLastLocation.getLatitude()) +
-                        "," + Double.toString(mLastLocation.getLongitude()));
-                mEditor.putBoolean(TOGGLE_KEY, mAlarmToggle.isChecked());
+                mEditor.putBoolean(SETUP_KEY, true);
                 mEditor.commit();
+
+                Intent setActivityIntent = new Intent(getApplicationContext(), AlarmSetActivity.class);
+                startActivity(setActivityIntent);
+
+                Toast.makeText(MainActivity.this, "Finished committing! Starting AlarmSetActivity!", Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    public void setAlarmText(String alarmText)
-    {
-        mAlarmRingerView.setText(alarmText);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
     }
 
     @Override
     public void onDestroy()
     {
         super.onDestroy();
-        RingtoneManager ringtoneManager = new RingtoneManager(this);
-        ringtoneManager.stopPreviousRingtone();
-    }
-
-    public void onToggleClicked(View view) {
-        if (mAlarmToggle.isChecked()) {
-            Log.d("MyActivity", "Alarm On");
-
-            Toast.makeText(MainActivity.this, "Setting Alarm!", Toast.LENGTH_SHORT).show();
-
-            mHabit = mHabitBox.getText().toString();
-            mEventTime = mEventBox.getText().toString();
-
-            mLocation = mLocationBox.getText().toString();
-
-            //TODO: old method for debugging!
-            //new getTimeTask().execute(mLocation);
-
-            // Put current location in string
-            String locParams = "";
-            if(mLastLocation != null) {
-                locParams = String.valueOf(mLastLocation.getLatitude()) + "," +
-                        String.valueOf(mLastLocation.getLongitude());
-            }
-            else
-            {
-                locParams = mPreferences.getString(CUR_LOC_KEY, null);
-            }
-
-            Toast.makeText(MainActivity.this, "Starting TrafficUpdateService!", Toast.LENGTH_LONG).show();
-            Log.e("STARTTRAFFIC", "Starting TrafficUpdateService!");
-            Intent updateServiceIntent = new Intent(this, TrafficUpdateService.class);
-            Bundle sendBundle = new Bundle();
-            sendBundle.putString("habit", mHabit);
-            sendBundle.putString("event", mEventTime);
-            sendBundle.putString("location", mLocation);
-            sendBundle.putString("curloc", locParams);
-            updateServiceIntent.putExtras(sendBundle);
-            startService(updateServiceIntent);
-        }
-        else
-        {
-            mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
-            mPendingIntent = PendingIntent.getBroadcast(MainActivity.this, AlarmSupport.ALARM_ID, myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-            mPendingIntent.cancel();
-            mAlarmManager.cancel(mPendingIntent);
-
-            Intent stopAlarmIntent = new Intent(this, AlarmService.class);
-            stopService(stopAlarmIntent);
-
-            Intent stopUpdateIntent = new Intent(this, TrafficUpdateService.class);
-            stopService(stopUpdateIntent);
-
-            mAlarmTextView.setText("Alarm will be set to: \nOff");
-            setAlarmText("Alarm Off");
-            Log.d("MyActivity", "Alarm Off");
-        }
-
-        // Update the SharedPrefs too
-        mEditor.putBoolean(TOGGLE_KEY, mAlarmToggle.isChecked());
-        mEditor.commit();
     }
 
     @Override
@@ -235,49 +156,5 @@ public class MainActivity extends Activity implements
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /*
-    Location related classes
-     */
-    /**
-     * Runs when a GoogleApiClient object successfully connects.
-     */
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-    }
-
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        // Provides a simple way of getting a device's location and is well suited for
-        // applications that do not require a fine-grained location and that do not need location
-        // updates. Gets the best and most recent location currently available, which may be null
-        // in rare cases when a location is not available.
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation == null) {
-            Toast.makeText(this, "Cannot find location!", Toast.LENGTH_LONG).show();
-        }
-        else
-        {
-            Log.e("LOCFOUNDLAT", Double.toString(mLastLocation.getLatitude()));
-            Log.e("LOCFOUNDLONG", Double.toString(mLastLocation.getLongitude()));
-        }
-    }
-    @Override
-    public void onConnectionFailed(ConnectionResult result) {
-        // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
-        // onConnectionFailed.
-        Log.i("LOC", "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
-    }
-    @Override
-    public void onConnectionSuspended(int cause) {
-        // The connection to Google Play services was lost for some reason. We call connect() to
-        // attempt to re-establish the connection.
-        Log.i("LOC", "Connection suspended");
-        mGoogleApiClient.connect();
     }
 }

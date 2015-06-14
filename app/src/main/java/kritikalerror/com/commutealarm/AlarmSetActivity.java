@@ -60,7 +60,7 @@ public class AlarmSetActivity extends Activity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_set);
 
         // Start up Google client
         buildGoogleApiClient();
