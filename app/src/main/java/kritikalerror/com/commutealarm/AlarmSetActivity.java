@@ -164,7 +164,6 @@ public class AlarmSetActivity extends Activity implements
 
             mLocation = mLocationBox.getText().toString();
 
-            //TODO: old method for debugging!
             //new getTimeTask().execute(mLocation);
 
             // Put current location in string
