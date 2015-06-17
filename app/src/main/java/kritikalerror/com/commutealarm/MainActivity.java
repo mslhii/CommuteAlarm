@@ -116,6 +116,7 @@ public class MainActivity extends Activity {
                 mEditor.commit();
 
                 Intent setActivityIntent = new Intent(getApplicationContext(), AlarmSetActivity.class);
+                setActivityIntent.setFlags(setActivityIntent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(setActivityIntent);
 
                 Toast.makeText(MainActivity.this, "Finished committing! Starting AlarmSetActivity!", Toast.LENGTH_LONG).show();
