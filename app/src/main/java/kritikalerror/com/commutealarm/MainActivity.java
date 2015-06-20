@@ -69,6 +69,7 @@ public class MainActivity extends Activity {
         {
             Toast.makeText(MainActivity.this, "We already have data! Starting AlarmSetActivity!", Toast.LENGTH_LONG).show();
             Intent setActivityIntent = new Intent(getApplicationContext(), AlarmSetActivity.class);
+            setActivityIntent.setFlags(setActivityIntent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(setActivityIntent);
         }
 
