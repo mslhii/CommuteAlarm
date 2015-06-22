@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.location.Location;
+import android.support.v4.view.ViewPager;
+
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -54,6 +56,9 @@ public class MainActivity extends Activity {
     private final String EVENT_KEY = "Event";
     private final String SETUP_KEY = "Setup";
 
+    ViewPager mViewPager;
+    CustomPagerAdapter mPagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +77,11 @@ public class MainActivity extends Activity {
             setActivityIntent.setFlags(setActivityIntent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(setActivityIntent);
         }
+
+        // Set up ViewPager
+        mViewPager = (ViewPager)findViewById(R.id.viewpager);
+        mPagerAdapter = new CustomPagerAdapter(getApplicationContext());
+        mViewPager.setAdapter(mPagerAdapter);
 
         mEventBox = (EditText) findViewById(R.id.firstEvent);
         mLocationBox = (EditText) findViewById(R.id.workEdit);
