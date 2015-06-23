@@ -18,7 +18,7 @@ import android.graphics.Typeface;
  */
 public class CustomPagerAdapter extends PagerAdapter {
 
-    int NumberOfPages = 5;
+    int NumberOfPages = 3;
 
     Context mContext;
 
@@ -26,16 +26,18 @@ public class CustomPagerAdapter extends PagerAdapter {
             android.R.drawable.ic_dialog_alert,
             android.R.drawable.ic_menu_camera,
             android.R.drawable.ic_menu_compass,
-            android.R.drawable.ic_menu_directions,
-            android.R.drawable.ic_menu_gallery
     };
 
     int[] backgroundcolor = {
             0xFF101010,
             0xFF202020,
             0xFF303030,
-            0xFF404040,
-            0xFF505050
+    };
+
+    String[] questionStrings = {
+            "Where do you work?",
+            "How long does it take to prepare to leave?",
+            "When do you need to be in the office?",
     };
 
     public CustomPagerAdapter(Context context) {
@@ -58,7 +60,7 @@ public class CustomPagerAdapter extends PagerAdapter {
         textView.setTextColor(Color.WHITE);
         textView.setTextSize(30);
         textView.setTypeface(Typeface.DEFAULT_BOLD);
-        textView.setText(String.valueOf(position));
+        textView.setText(questionStrings[position]);
 
         ImageView imageView = new ImageView(mContext);
         imageView.setImageResource(res[position]);
