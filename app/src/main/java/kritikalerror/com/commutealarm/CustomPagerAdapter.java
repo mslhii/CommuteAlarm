@@ -1,11 +1,13 @@
 package kritikalerror.com.commutealarm;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,7 +20,13 @@ import android.graphics.Typeface;
  */
 public class CustomPagerAdapter extends PagerAdapter {
 
-    int NumberOfPages = 3;
+    private final int numberOfPages = 3;
+    private final String LOCATION_KEY = "Location";
+    private final String HABIT_KEY = "Habit";
+    private final String EVENT_KEY = "Event";
+
+    private SharedPreferences mPreferences;
+    private SharedPreferences.Editor mEditor;
 
     Context mContext;
 
@@ -40,13 +48,21 @@ public class CustomPagerAdapter extends PagerAdapter {
             "When do you need to be in the office?",
     };
 
-    public CustomPagerAdapter(Context context) {
+    String[] prefStrings = {
+            LOCATION_KEY,
+            HABIT_KEY,
+            EVENT_KEY,
+    };
+
+    public CustomPagerAdapter(Context context, SharedPreferences sharedPrefs, SharedPreferences.Editor editor) {
         mContext = context;
+        mPreferences = sharedPrefs;
+        mEditor = editor;
     }
 
     @Override
     public int getCount() {
-        return NumberOfPages;
+        return numberOfPages;
     }
 
     @Override
@@ -62,6 +78,9 @@ public class CustomPagerAdapter extends PagerAdapter {
         textView.setTypeface(Typeface.DEFAULT_BOLD);
         textView.setText(questionStrings[position]);
 
+        EditText userAnswerView = new EditText(mContext);
+        userAnswerView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+
         ImageView imageView = new ImageView(mContext);
         imageView.setImageResource(res[position]);
         LayoutParams imageParams = new LayoutParams(
@@ -75,7 +94,8 @@ public class CustomPagerAdapter extends PagerAdapter {
         layout.setBackgroundColor(backgroundcolor[position]);
         layout.setLayoutParams(layoutParams);
         layout.addView(textView);
-        layout.addView(imageView);
+        //layout.addView(imageView);
+        layout.addView(userAnswerView);
 
         final int page = position;
         final Context lastContext = mContext;
@@ -94,6 +114,10 @@ public class CustomPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
+        // Make a commit every time the user flips a page
+        //mEditor.putString(prefStrings[position], "");
+        //mEditor.commit();
+        Toast.makeText(mContext, "Changes committed!", Toast.LENGTH_SHORT).show();
         container.removeView((LinearLayout)object);
     }
 

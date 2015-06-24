@@ -50,7 +50,6 @@ public class MainActivity extends Activity {
     protected String mAlarmTimeString;
     protected Location mLastLocation;
 
-    private final String PREFS_NAME = "TaskRecorderPrefs";
     private final String LOCATION_KEY = "Location";
     private final String HABIT_KEY = "Habit";
     private final String EVENT_KEY = "Event";
@@ -65,8 +64,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         // Start SharedPreferences
-        mPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        mEditor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
+        mPreferences = getSharedPreferences(AlarmSupport.PREFS_NAME, MODE_PRIVATE);
+        mEditor = getSharedPreferences(AlarmSupport.PREFS_NAME, MODE_PRIVATE).edit();
 
         // See if we need to setup first
         boolean setup = mPreferences.getBoolean(SETUP_KEY, false);
@@ -80,7 +79,7 @@ public class MainActivity extends Activity {
 
         // Set up ViewPager
         mViewPager = (ViewPager)findViewById(R.id.viewpager);
-        mPagerAdapter = new CustomPagerAdapter(getApplicationContext());
+        mPagerAdapter = new CustomPagerAdapter(getApplicationContext(), mPreferences, mEditor);
         mViewPager.setAdapter(mPagerAdapter);
 
         mEventBox = (EditText) findViewById(R.id.firstEvent);
