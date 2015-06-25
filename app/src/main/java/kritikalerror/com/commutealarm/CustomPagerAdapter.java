@@ -117,7 +117,7 @@ public class CustomPagerAdapter extends PagerAdapter {
         // Make a commit every time the user flips a page
         //mEditor.putString(prefStrings[position], "");
         //mEditor.commit();
-        Toast.makeText(mContext, "Changes committed!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "Changes committed to page " + position, Toast.LENGTH_SHORT).show();
         container.removeView((LinearLayout)object);
     }
 
