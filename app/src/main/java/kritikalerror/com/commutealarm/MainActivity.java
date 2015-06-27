@@ -77,8 +77,30 @@ public class MainActivity extends Activity {
             startActivity(setActivityIntent);
         }
 
+        // Set up OnPageListener
+        ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onPageSelected(int pos) {
+            }
+
+        };
+
         // Set up ViewPager
         mViewPager = (ViewPager)findViewById(R.id.viewpager);
+        mViewPager.setOnPageChangeListener(pageChangeListener);
         mPagerAdapter = new CustomPagerAdapter(getApplicationContext(), mPreferences, mEditor);
         mViewPager.setAdapter(mPagerAdapter);
 
