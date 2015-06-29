@@ -28,7 +28,7 @@ public class CustomPagerAdapter extends PagerAdapter {
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
 
-    Context mContext;
+    private Context mContext;
 
     int[] res = {
             android.R.drawable.ic_dialog_alert,
@@ -42,13 +42,13 @@ public class CustomPagerAdapter extends PagerAdapter {
             0xFF303030,
     };
 
-    String[] questionStrings = {
+    private String[] questionStrings = {
             "Where do you work?",
             "How long does it take to prepare to leave?",
             "When do you need to be in the office?",
     };
 
-    String[] prefStrings = {
+    public String[] prefStrings = {
             LOCATION_KEY,
             HABIT_KEY,
             EVENT_KEY,
