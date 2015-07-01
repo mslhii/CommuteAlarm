@@ -25,6 +25,7 @@ import android.support.v4.view.ViewPager;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.PriorityQueue;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -87,6 +88,8 @@ public class MainActivity extends Activity {
         mViewPager = (ViewPager)findViewById(R.id.viewpager);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
+            PriorityQueue<Integer> previousPageQueue = new PriorityQueue<Integer>(2);
+
             @Override
             public void onPageScrollStateChanged(int arg0) {
                 // TODO Auto-generated method stub
@@ -120,6 +123,21 @@ public class MainActivity extends Activity {
                 //curPos = mViewPager.getCurrentItem();
                 //Toast.makeText(getApplicationContext(), "Current page " + pos, Toast.LENGTH_SHORT).show();
                 //Toast.makeText(getApplicationContext(), "old page " + curPos, Toast.LENGTH_SHORT).show();
+
+                // Retrieve old position first
+                int oldPos = -1;
+
+                if(!previousPageQueue.isEmpty())
+                {
+                    oldPos = previousPageQueue.poll();
+                }
+
+                // Make commit to SharedPrefs
+                mEditor.putString(prefStrings[oldPos], "");
+                mEditor.commit();
+
+                // Add current page to queue
+                previousPageQueue.add(pos);
             }
 
         });
