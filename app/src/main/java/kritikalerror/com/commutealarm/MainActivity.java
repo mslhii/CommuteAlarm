@@ -88,26 +88,26 @@ public class MainActivity extends Activity {
         mViewPager = (ViewPager)findViewById(R.id.viewpager);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-            PriorityQueue<Integer> previousPageQueue = new PriorityQueue<Integer>(2);
+            int oldPos = mViewPager.getCurrentItem();
 
             @Override
             public void onPageScrollStateChanged(int arg0) {
                 // TODO Auto-generated method stub
                 //Toast.makeText(getApplicationContext(), "scrollstatechanged " + arg0, Toast.LENGTH_SHORT).show();
 
-                if(arg0 == ViewPager.SCROLL_STATE_SETTLING) { // Commit as soon as the page turns
+                //if(arg0 == ViewPager.SCROLL_STATE_SETTLING) { // Commit as soon as the page turns
                     // Make a commit every time the user flips a page
                     //Toast.makeText(getApplicationContext(), "Current page " + mViewPager.getCurrentItem(), Toast.LENGTH_SHORT).show();
                     //mEditor.putString(prefStrings[position], "");
                     //mEditor.commit();
-                }
+                //}
             }
 
             @Override
             public void onPageScrolled(int arg0, float arg1, int arg2) {
-                int curPos = mViewPager.getCurrentItem();
-                Toast.makeText(getApplicationContext(), "arg1 " + arg1, Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), "arg2 " + arg2, Toast.LENGTH_SHORT).show();
+                //int curPos = mViewPager.getCurrentItem();
+                //Toast.makeText(getApplicationContext(), "arg1 " + arg1, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "arg2 " + arg2, Toast.LENGTH_SHORT).show();
 
                 // TODO Auto-generated method stub
 //                if(arg0 > curPos) {
@@ -120,24 +120,26 @@ public class MainActivity extends Activity {
 
             @Override
             public void onPageSelected(int pos) {
-                //curPos = mViewPager.getCurrentItem();
-                //Toast.makeText(getApplicationContext(), "Current page " + pos, Toast.LENGTH_SHORT).show();
-                //Toast.makeText(getApplicationContext(), "old page " + curPos, Toast.LENGTH_SHORT).show();
-
-                // Retrieve old position first
-                int oldPos = -1;
-
-                if(!previousPageQueue.isEmpty())
-                {
-                    oldPos = previousPageQueue.poll();
-                }
+                Toast.makeText(getApplicationContext(), "Current page " + pos, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "old page " + oldPos, Toast.LENGTH_SHORT).show();
 
                 // Make commit to SharedPrefs
-                mEditor.putString(prefStrings[oldPos], "");
+                switch(oldPos) {
+                    case 0:
+                        mEditor.putString(prefStrings[0], mLocationBox.getText().toString());
+                        break;
+                    case 1:
+                        mEditor.putString(prefStrings[1], mHabitBox.getText().toString());
+                        break;
+                    case 2:
+                        mEditor.putString(prefStrings[2], mEventBox.getText().toString());
+                        break;
+                    default:
+                        break;
+                }
                 mEditor.commit();
 
-                // Add current page to queue
-                previousPageQueue.add(pos);
+                oldPos = pos;
             }
 
         });
