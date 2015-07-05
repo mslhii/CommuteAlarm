@@ -93,29 +93,11 @@ public class MainActivity extends Activity {
             @Override
             public void onPageScrollStateChanged(int arg0) {
                 // TODO Auto-generated method stub
-                //Toast.makeText(getApplicationContext(), "scrollstatechanged " + arg0, Toast.LENGTH_SHORT).show();
-
-                //if(arg0 == ViewPager.SCROLL_STATE_SETTLING) { // Commit as soon as the page turns
-                    // Make a commit every time the user flips a page
-                    //Toast.makeText(getApplicationContext(), "Current page " + mViewPager.getCurrentItem(), Toast.LENGTH_SHORT).show();
-                    //mEditor.putString(prefStrings[position], "");
-                    //mEditor.commit();
-                //}
             }
 
             @Override
             public void onPageScrolled(int arg0, float arg1, int arg2) {
-                //int curPos = mViewPager.getCurrentItem();
-                //Toast.makeText(getApplicationContext(), "arg1 " + arg1, Toast.LENGTH_SHORT).show();
-                //Toast.makeText(getApplicationContext(), "arg2 " + arg2, Toast.LENGTH_SHORT).show();
-
                 // TODO Auto-generated method stub
-//                if(arg0 > curPos) {
-//                    //Moving to the right
-//
-//                } else if(arg0 < curPos) {
-//                    //Moving to the Left
-//                }
             }
 
             @Override
