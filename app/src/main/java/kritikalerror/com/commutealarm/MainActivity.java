@@ -121,6 +121,8 @@ public class MainActivity extends Activity {
                 }
                 mEditor.commit();
 
+                Toast.makeText(MainActivity.this, "Finished committing case " + oldPos + "!", Toast.LENGTH_SHORT);
+
                 oldPos = pos;
             }
 
@@ -165,9 +167,9 @@ public class MainActivity extends Activity {
 
             @Override
             public void onClick(View view) {
-                mEditor.putString(LOCATION_KEY, mLocationBox.getText().toString());
-                mEditor.putString(HABIT_KEY, mHabitBox.getText().toString());
-                mEditor.putString(EVENT_KEY, mEventBox.getText().toString());
+                //mEditor.putString(LOCATION_KEY, mLocationBox.getText().toString());
+                //mEditor.putString(HABIT_KEY, mHabitBox.getText().toString());
+                //mEditor.putString(EVENT_KEY, mEventBox.getText().toString());
                 mEditor.putBoolean(SETUP_KEY, true);
                 mEditor.commit();
 
