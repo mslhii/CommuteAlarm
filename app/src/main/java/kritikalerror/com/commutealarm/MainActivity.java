@@ -121,7 +121,7 @@ public class MainActivity extends Activity {
                 }
                 mEditor.commit();
 
-                Toast.makeText(MainActivity.this, "Finished committing case " + oldPos + "!", Toast.LENGTH_SHORT);
+                Toast.makeText(MainActivity.this, "Finished committing case " + oldPos + "!", Toast.LENGTH_SHORT).show();
 
                 oldPos = pos;
             }
