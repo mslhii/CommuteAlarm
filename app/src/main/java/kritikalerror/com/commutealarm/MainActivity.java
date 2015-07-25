@@ -127,7 +127,7 @@ public class MainActivity extends Activity {
             }
 
         });
-        mPagerAdapter = new CustomPagerAdapter(getApplicationContext(), mPreferences, mEditor);
+        mPagerAdapter = new CustomPagerAdapter(getApplicationContext());
         mViewPager.setAdapter(mPagerAdapter);
 
         mEventBox = (EditText) findViewById(R.id.firstEvent);

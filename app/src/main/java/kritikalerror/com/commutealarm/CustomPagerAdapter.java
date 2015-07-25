@@ -25,9 +25,6 @@ public class CustomPagerAdapter extends PagerAdapter {
     private final String HABIT_KEY = "Habit";
     private final String EVENT_KEY = "Event";
 
-    private SharedPreferences mPreferences;
-    private SharedPreferences.Editor mEditor;
-
     private Context mContext;
 
     int[] res = {
@@ -36,7 +33,7 @@ public class CustomPagerAdapter extends PagerAdapter {
             android.R.drawable.ic_menu_compass,
     };
 
-    int[] backgroundcolor = {
+    int[] backgroundColor = {
             0xFF101010,
             0xFF202020,
             0xFF303030,
@@ -48,16 +45,8 @@ public class CustomPagerAdapter extends PagerAdapter {
             "When do you need to be in the office?",
     };
 
-    public String[] prefStrings = {
-            LOCATION_KEY,
-            HABIT_KEY,
-            EVENT_KEY,
-    };
-
-    public CustomPagerAdapter(Context context, SharedPreferences sharedPrefs, SharedPreferences.Editor editor) {
+    public CustomPagerAdapter(Context context) {
         mContext = context;
-        mPreferences = sharedPrefs;
-        mEditor = editor;
     }
 
     @Override
@@ -91,22 +80,11 @@ public class CustomPagerAdapter extends PagerAdapter {
         layout.setOrientation(LinearLayout.VERTICAL);
         LayoutParams layoutParams = new LayoutParams(
                 LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
-        layout.setBackgroundColor(backgroundcolor[position]);
+        layout.setBackgroundColor(backgroundColor[position]);
         layout.setLayoutParams(layoutParams);
         layout.addView(textView);
         //layout.addView(imageView);
         layout.addView(userAnswerView);
-
-        final int page = position;
-        final Context lastContext = mContext;
-        layout.setOnClickListener(new OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(lastContext,
-                        "Page " + page + " clicked",
-                        Toast.LENGTH_LONG).show();
-            }});
 
         container.addView(layout);
         return layout;
@@ -114,10 +92,6 @@ public class CustomPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        // Make a commit every time the user flips a page
-        //mEditor.putString(prefStrings[position], "");
-        //mEditor.commit();
-        //Toast.makeText(mContext, "Changes committed to page " + position, Toast.LENGTH_SHORT).show();
         container.removeView((LinearLayout)object);
     }
 
