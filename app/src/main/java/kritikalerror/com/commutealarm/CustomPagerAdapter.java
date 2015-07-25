@@ -21,9 +21,6 @@ import android.graphics.Typeface;
 public class CustomPagerAdapter extends PagerAdapter {
 
     private final int numberOfPages = 3;
-    private final String LOCATION_KEY = "Location";
-    private final String HABIT_KEY = "Habit";
-    private final String EVENT_KEY = "Event";
 
     private Context mContext;
 
