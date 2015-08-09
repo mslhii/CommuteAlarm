@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -60,6 +61,7 @@ public class MainActivity extends Activity {
             LOCATION_KEY,
             HABIT_KEY,
             EVENT_KEY,
+            SETUP_KEY,
     };
 
     ViewPager mViewPager;
@@ -86,6 +88,7 @@ public class MainActivity extends Activity {
 
         // Set up ViewPager
         mViewPager = (ViewPager)findViewById(R.id.viewpager);
+        mPagerAdapter = new CustomPagerAdapter(getApplicationContext());
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             int oldPos = mViewPager.getCurrentItem();
@@ -102,32 +105,38 @@ public class MainActivity extends Activity {
 
             @Override
             public void onPageSelected(int pos) {
-                Toast.makeText(getApplicationContext(), "Current page " + pos, Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), "old page " + oldPos, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Current page " + pos, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "old page " + oldPos, Toast.LENGTH_SHORT).show();
 
-                // Make commit to SharedPrefs
-                switch(oldPos) {
-                    case 0:
-                        mEditor.putString(prefStrings[0], mLocationBox.getText().toString());
-                        break;
-                    case 1:
-                        mEditor.putString(prefStrings[1], mHabitBox.getText().toString());
-                        break;
-                    case 2:
-                        mEditor.putString(prefStrings[2], mEventBox.getText().toString());
-                        break;
-                    default:
-                        break;
+                if(!(oldPos == (mPagerAdapter.numberOfPages - 1))) {
+                    LinearLayout layout = (LinearLayout) mViewPager.findViewWithTag("pos" + oldPos);
+                    EditText tempTextView = (EditText) layout.findViewWithTag("textview");
+
+                    Toast.makeText(MainActivity.this, "Text is " + tempTextView.getText().toString() + "!", Toast.LENGTH_SHORT).show();
+
+                    // Make commit to SharedPrefs
+                    switch (oldPos) {
+                        case 0:
+                            mEditor.putString(prefStrings[0], tempTextView.getText().toString());
+                            break;
+                        case 1:
+                            mEditor.putString(prefStrings[1], tempTextView.getText().toString());
+                            break;
+                        case 2:
+                            mEditor.putString(prefStrings[2], tempTextView.getText().toString());
+                            break;
+                        default:
+                            break;
+                    }
+                    mEditor.commit();
                 }
-                mEditor.commit();
 
-                Toast.makeText(MainActivity.this, "Finished committing case " + oldPos + "!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Finished committing case " + oldPos + "!", Toast.LENGTH_SHORT).show();
 
                 oldPos = pos;
             }
 
         });
-        mPagerAdapter = new CustomPagerAdapter(getApplicationContext());
         mViewPager.setAdapter(mPagerAdapter);
 
         mEventBox = (EditText) findViewById(R.id.firstEvent);
