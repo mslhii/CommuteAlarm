@@ -83,13 +83,9 @@ public class CustomPagerAdapter extends PagerAdapter {
         layout.setOnClickListener(new OnClickListener(){
         @Override
         public void onClick(View v) {
-            //Toast.makeText(lastContext, "Page clicked", Toast.LENGTH_LONG).show();
-
             if (lastPosition == (numberOfPages - 1)) {
                 Intent setActivityIntent = new Intent(lastContext, AlarmSetActivity.class);
                 setActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NEW_TASK);
-                //setActivityIntent.setFlags(setActivityIntent.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);
-                //setActivityIntent.setFlags(setActivityIntent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
                 lastContext.startActivity(setActivityIntent);
             }
         }});
@@ -101,9 +97,6 @@ public class CustomPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        //Toast.makeText(mContext,
-        //        "Page " + position + " destroyed",
-        //        Toast.LENGTH_LONG).show();
         container.removeView((LinearLayout)object);
     }
 
