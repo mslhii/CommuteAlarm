@@ -34,7 +34,7 @@ public class AlarmSetActivity extends Activity implements
     private EditText mHabitBox;
     private EditText mEventBox;
     private ToggleButton mAlarmToggle;
-    private Button mSaveButton;
+    //private Button mSaveButton;
 
     private AlarmManager mAlarmManager;
     private PendingIntent mPendingIntent;
@@ -76,7 +76,7 @@ public class AlarmSetActivity extends Activity implements
         mAlarmTextView = (TextView) findViewById(R.id.alarmNotification);
         mAlarmRingerView = (TextView) findViewById(R.id.ringer);
         mHabitBox = (EditText) findViewById(R.id.prepareTime);
-        mSaveButton = (Button) findViewById(R.id.button);
+        //mSaveButton = (Button) findViewById(R.id.button);
 
         // Get values from SharedPrefs
         String location = mPreferences.getString(LOCATION_KEY, null);
@@ -111,6 +111,7 @@ public class AlarmSetActivity extends Activity implements
 
         mAlarmToggle.setChecked(mIsToggleChecked);
 
+        /*
         mSaveButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -124,6 +125,7 @@ public class AlarmSetActivity extends Activity implements
                 mEditor.commit();
             }
         });
+        */
     }
 
     public void setAlarmText(String alarmText)

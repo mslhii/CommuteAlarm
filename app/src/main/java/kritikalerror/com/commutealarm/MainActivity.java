@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -70,6 +71,10 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Hide Action Bar
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().hide();
         setContentView(R.layout.activity_main);
 
         // Start SharedPreferences
@@ -139,6 +144,7 @@ public class MainActivity extends Activity {
         });
         mViewPager.setAdapter(mPagerAdapter);
 
+        /*
         mEventBox = (EditText) findViewById(R.id.firstEvent);
         mLocationBox = (EditText) findViewById(R.id.workEdit);
         mAlarmTextView = (TextView) findViewById(R.id.alarmNotification);
@@ -186,6 +192,7 @@ public class MainActivity extends Activity {
                 Toast.makeText(MainActivity.this, "Finished committing! Starting AlarmSetActivity!", Toast.LENGTH_LONG).show();
             }
         });
+        */
     }
 
     @Override
