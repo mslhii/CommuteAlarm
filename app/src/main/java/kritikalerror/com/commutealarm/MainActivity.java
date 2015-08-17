@@ -58,6 +58,8 @@ public class MainActivity extends Activity {
     private final String EVENT_KEY = "Event";
     private final String SETUP_KEY = "Setup";
 
+    private static final int RESULT_SETTINGS = 1;
+
     public String[] prefStrings = {
             LOCATION_KEY,
             HABIT_KEY,
@@ -225,8 +227,20 @@ public class MainActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Intent i = new Intent(this, SettingsActivity.class);
+            startActivityForResult(i, RESULT_SETTINGS);
+
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RESULT_SETTINGS)
+        {
+
+        }
     }
 }
