@@ -145,56 +145,6 @@ public class MainActivity extends Activity {
 
         });
         mViewPager.setAdapter(mPagerAdapter);
-
-        /*
-        mEventBox = (EditText) findViewById(R.id.firstEvent);
-        mLocationBox = (EditText) findViewById(R.id.workEdit);
-        mAlarmTextView = (TextView) findViewById(R.id.alarmNotification);
-        mAlarmRingerView = (TextView) findViewById(R.id.ringer);
-        mHabitBox = (EditText) findViewById(R.id.prepareTime);
-        mSaveButton = (Button) findViewById(R.id.button);
-
-        // Get values from SharedPrefs
-        String location = mPreferences.getString(LOCATION_KEY, null);
-        if(location != null) {
-            mLocationBox.setText(location);
-        }
-        else {
-            mLocationBox.setText("");
-        }
-        String habit = mPreferences.getString(HABIT_KEY, null);
-        if(habit != null) {
-            mHabitBox.setText(habit);
-        }
-        else {
-            mHabitBox.setText("");
-        }
-        String event = mPreferences.getString(EVENT_KEY, null);
-        if(event != null) {
-            mEventBox.setText(event);
-        }
-        else {
-            mEventBox.setText("");
-        }
-
-        mHabit = mHabitBox.getText().toString();
-        mEventTime = mEventBox.getText().toString();
-
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                mEditor.putBoolean(SETUP_KEY, true);
-                mEditor.commit();
-
-                Intent setActivityIntent = new Intent(getApplicationContext(), AlarmSetActivity.class);
-                setActivityIntent.setFlags(setActivityIntent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(setActivityIntent);
-
-                Toast.makeText(MainActivity.this, "Finished committing! Starting AlarmSetActivity!", Toast.LENGTH_LONG).show();
-            }
-        });
-        */
     }
 
     @Override
