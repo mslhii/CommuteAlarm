@@ -252,7 +252,7 @@ public class AlarmSetActivity extends Activity implements
             else {
                 mEventBox.setText("");
             }
-            mIsToggleChecked = sharedPrefs.getBoolean(TOGGLE_KEY, false);
+            //mIsToggleChecked = sharedPrefs.getBoolean(TOGGLE_KEY, false);
 
             mLocation = mLocationBox.getText().toString();
             mHabit = mHabitBox.getText().toString();
