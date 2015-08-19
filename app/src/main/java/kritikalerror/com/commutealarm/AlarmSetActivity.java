@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.media.RingtoneManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,6 +57,8 @@ public class AlarmSetActivity extends Activity implements
     private final String HABIT_KEY = "Habit";
     private final String EVENT_KEY = "Event";
     private final String TOGGLE_KEY = "Toggle";
+
+    private static final int RESULT_SETTINGS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,22 +113,6 @@ public class AlarmSetActivity extends Activity implements
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         mAlarmToggle.setChecked(mIsToggleChecked);
-
-        /*
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                mEditor.putString(LOCATION_KEY, mLocationBox.getText().toString());
-                mEditor.putString(HABIT_KEY, mHabitBox.getText().toString());
-                mEditor.putString(EVENT_KEY, mEventBox.getText().toString());
-                mEditor.putString(CUR_LOC_KEY, Double.toString(mLastLocation.getLatitude()) +
-                        "," + Double.toString(mLastLocation.getLongitude()));
-                mEditor.putBoolean(TOGGLE_KEY, mAlarmToggle.isChecked());
-                mEditor.commit();
-            }
-        });
-        */
     }
 
     public void setAlarmText(String alarmText)
@@ -229,9 +216,48 @@ public class AlarmSetActivity extends Activity implements
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Intent i = new Intent(this, SettingsActivity.class);
+            startActivityForResult(i, RESULT_SETTINGS);
+
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if(requestCode == RESULT_SETTINGS)
+        {
+            // Get values from SharedPrefs
+            String location = sharedPrefs.getString(LOCATION_KEY, null);
+            if(location != null) {
+                mLocationBox.setText(location);
+            }
+            else {
+                mLocationBox.setText("");
+            }
+            String habit = sharedPrefs.getString(HABIT_KEY, null);
+            if(habit != null) {
+                mHabitBox.setText(habit);
+            }
+            else {
+                mHabitBox.setText("");
+            }
+            String event = sharedPrefs.getString(EVENT_KEY, null);
+            if(event != null) {
+                mEventBox.setText(event);
+            }
+            else {
+                mEventBox.setText("");
+            }
+            mIsToggleChecked = sharedPrefs.getBoolean(TOGGLE_KEY, false);
+
+            mLocation = mLocationBox.getText().toString();
+            mHabit = mHabitBox.getText().toString();
+            mEventTime = mEventBox.getText().toString();
+        }
     }
 
     /*

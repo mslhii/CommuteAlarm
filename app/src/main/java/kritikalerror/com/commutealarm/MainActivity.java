@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,8 +59,6 @@ public class MainActivity extends Activity {
     private final String EVENT_KEY = "Event";
     private final String SETUP_KEY = "Setup";
 
-    private static final int RESULT_SETTINGS = 1;
-
     public String[] prefStrings = {
             LOCATION_KEY,
             HABIT_KEY,
@@ -89,7 +88,7 @@ public class MainActivity extends Activity {
         {
             Toast.makeText(MainActivity.this, "We already have data! Starting AlarmSetActivity!", Toast.LENGTH_LONG).show();
             Intent setActivityIntent = new Intent(getApplicationContext(), AlarmSetActivity.class);
-            setActivityIntent.setFlags(setActivityIntent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+            //setActivityIntent.setFlags(setActivityIntent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(setActivityIntent);
         }
 
@@ -168,29 +167,5 @@ public class MainActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Intent i = new Intent(this, SettingsActivity.class);
-            startActivityForResult(i, RESULT_SETTINGS);
-
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == RESULT_SETTINGS)
-        {
-
-        }
     }
 }
