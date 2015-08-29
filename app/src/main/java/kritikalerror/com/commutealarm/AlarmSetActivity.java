@@ -29,11 +29,11 @@ import com.google.android.gms.location.LocationServices;
  */
 public class AlarmSetActivity extends Activity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    private EditText mLocationBox;
+    private TextView mLocationBox;
     private TextView mAlarmTextView;
     private TextView mAlarmRingerView;
-    private EditText mHabitBox;
-    private EditText mEventBox;
+    private TextView mHabitBox;
+    private TextView mEventBox;
     private ToggleButton mAlarmToggle;
     //private Button mSaveButton;
 
@@ -74,11 +74,11 @@ public class AlarmSetActivity extends Activity implements
 
         mAlarmTimeString = "Cannot set alarm!";
 
-        mEventBox = (EditText) findViewById(R.id.firstEvent);
-        mLocationBox = (EditText) findViewById(R.id.workEdit);
+        mEventBox = (TextView) findViewById(R.id.firstEvent);
+        mLocationBox = (TextView) findViewById(R.id.workEdit);
         mAlarmTextView = (TextView) findViewById(R.id.alarmNotification);
         mAlarmRingerView = (TextView) findViewById(R.id.ringer);
-        mHabitBox = (EditText) findViewById(R.id.prepareTime);
+        mHabitBox = (TextView) findViewById(R.id.prepareTime);
         //mSaveButton = (Button) findViewById(R.id.button);
 
         // Get values from SharedPrefs

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.view.PagerAdapter;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -61,9 +62,11 @@ public class CustomPagerAdapter extends PagerAdapter {
         textView.setTextSize(30);
         textView.setTypeface(Typeface.DEFAULT_BOLD);
         textView.setText(questionStrings[position]);
+        textView.setGravity(Gravity.CENTER);
 
         LinearLayout layout = new LinearLayout(mContext);
         layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setGravity(Gravity.CENTER);
         LayoutParams layoutParams = new LayoutParams(
                 LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
         layout.setBackgroundColor(backgroundColor[position]);
@@ -86,6 +89,7 @@ public class CustomPagerAdapter extends PagerAdapter {
             if (lastPosition == (numberOfPages - 1)) {
                 Intent setActivityIntent = new Intent(lastContext, AlarmSetActivity.class);
                 //setActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NEW_TASK);
+                setActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 lastContext.startActivity(setActivityIntent);
             }
         }});
