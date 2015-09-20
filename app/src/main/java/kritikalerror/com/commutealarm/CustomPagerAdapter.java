@@ -22,7 +22,7 @@ import android.graphics.Typeface;
  */
 public class CustomPagerAdapter extends PagerAdapter {
 
-    public final int numberOfPages = 4;
+    public final int numberOfPages = 6;
 
     private Context mContext;
     public EditText mUserAnswerView;
@@ -32,9 +32,13 @@ public class CustomPagerAdapter extends PagerAdapter {
             0xFF202020,
             0xFF303030,
             0xFF404040,
+            0xFF505050,
+            0xFF606060,
     };
 
     private String[] questionStrings = {
+            "Hello",
+            "Before you use this app, let me ask you a few questions",
             "Where do you work?",
             "How long does it take to prepare to leave?",
             "When do you need to be in the office?",
@@ -73,7 +77,7 @@ public class CustomPagerAdapter extends PagerAdapter {
         layout.setLayoutParams(layoutParams);
         layout.addView(textView);
 
-        if(!(position == (numberOfPages - 1)))
+        if(!(position == (numberOfPages - 1)) && (position > 1))
         {
             mUserAnswerView = new EditText(mContext);
             mUserAnswerView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -88,7 +92,6 @@ public class CustomPagerAdapter extends PagerAdapter {
         public void onClick(View v) {
             if (lastPosition == (numberOfPages - 1)) {
                 Intent setActivityIntent = new Intent(lastContext, AlarmSetActivity.class);
-                //setActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NEW_TASK);
                 setActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 lastContext.startActivity(setActivityIntent);
             }

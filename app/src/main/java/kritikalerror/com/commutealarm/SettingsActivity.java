@@ -28,19 +28,13 @@ public class SettingsActivity extends PreferenceActivity {
 
         // Load SharedPrefs to get default values
         SharedPreferences sharedPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor prefsEdit = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
+        //SharedPreferences.Editor prefsEdit = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
 
         PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(this);
         PreferenceCategory category = new PreferenceCategory(this);
         category.setTitle("User Settings");
 
         screen.addPreference(category);
-
-        //CheckBoxPreference checkBoxPref = new CheckBoxPreference(this);
-        //checkBoxPref.setTitle("title");
-        //checkBoxPref.setSummary("summary");
-        //checkBoxPref.setChecked(true);
-        //category.addPreference(checkBoxPref);
 
         EditTextPreference locPref = new EditTextPreference(this);
         locPref.setTitle("Where do you work?");
@@ -87,7 +81,5 @@ public class SettingsActivity extends PreferenceActivity {
         //category.addPreference(dialogPref);
 
         setPreferenceScreen(screen);
-        //addPreferencesFromResource(R.xml.settings);
-        //PreferenceManager.setDefaultValues(this, R.xml.settings, false);
     }
 }

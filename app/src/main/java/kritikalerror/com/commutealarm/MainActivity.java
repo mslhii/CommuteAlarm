@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -77,6 +78,7 @@ public class MainActivity extends Activity {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().hide();
         setContentView(R.layout.activity_main);
+        getWindow().getDecorView().setBackgroundColor(Color.BLACK);
 
         // Start SharedPreferences
         mPreferences = getSharedPreferences(AlarmSupport.PREFS_NAME, MODE_PRIVATE);
@@ -114,7 +116,7 @@ public class MainActivity extends Activity {
                 //Toast.makeText(getApplicationContext(), "Current page " + pos, Toast.LENGTH_SHORT).show();
                 //Toast.makeText(getApplicationContext(), "old page " + oldPos, Toast.LENGTH_SHORT).show();
 
-                if(!(oldPos == (mPagerAdapter.numberOfPages - 1))) {
+                if(!(oldPos == (mPagerAdapter.numberOfPages - 1)) && (oldPos > 1)) {
                     LinearLayout layout = (LinearLayout) mViewPager.findViewWithTag("pos" + oldPos);
                     EditText tempTextView = (EditText) layout.findViewWithTag("textview");
 
