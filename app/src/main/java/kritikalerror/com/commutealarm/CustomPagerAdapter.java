@@ -77,6 +77,7 @@ public class CustomPagerAdapter extends PagerAdapter {
         layout.setLayoutParams(layoutParams);
         layout.addView(textView);
 
+        // This is for all the non-TextView pages
         if(!(position == (numberOfPages - 1)) && (position > 1))
         {
             mUserAnswerView = new EditText(mContext);
