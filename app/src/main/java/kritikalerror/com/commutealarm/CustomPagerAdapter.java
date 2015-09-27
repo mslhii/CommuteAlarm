@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -78,12 +79,21 @@ public class CustomPagerAdapter extends PagerAdapter {
         layout.addView(textView);
 
         // This is for all the non-TextView pages
-        if(!(position == (numberOfPages - 1)) && (position > 1))
+        if(!(position == (numberOfPages - 2)) && (position > 1))
         {
             mUserAnswerView = new EditText(mContext);
             mUserAnswerView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
             mUserAnswerView.setTag("textview");
             layout.addView(mUserAnswerView);
+        }
+
+        // TimePicker dialog
+        if(position == (numberOfPages - 1))
+        {
+            TimePicker timePickerView = new TimePicker(mContext);
+            timePickerView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            timePickerView.setTag("timepickerview");
+            layout.addView(timePickerView);
         }
 
         final Context lastContext = mContext;
