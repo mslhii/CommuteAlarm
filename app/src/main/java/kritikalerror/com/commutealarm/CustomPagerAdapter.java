@@ -79,7 +79,7 @@ public class CustomPagerAdapter extends PagerAdapter {
         layout.addView(textView);
 
         // This is for all the non-TextView pages
-        if(!(position == (numberOfPages - 2)) && (position > 1))
+        if(!(position == (numberOfPages - 1)) && (position > 1))
         {
             mUserAnswerView = new EditText(mContext);
             mUserAnswerView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -88,12 +88,21 @@ public class CustomPagerAdapter extends PagerAdapter {
         }
 
         // TimePicker dialog
-        if(position == (numberOfPages - 1))
+        if(position == (numberOfPages - 2))
         {
             TimePicker timePickerView = new TimePicker(mContext);
             timePickerView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
             timePickerView.setTag("timepickerview");
+            mUserAnswerView.setVisibility(View.INVISIBLE);
             layout.addView(timePickerView);
+
+            timePickerView.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+                        @Override
+                        public void onTimeChanged(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                            StringBuilder sb = new StringBuilder().append((selectedHour)).append(":").append((selectedMinute));
+                            mUserAnswerView.setText("New time is: " + sb.toString()); //bug
+                        }
+                    });
         }
 
         final Context lastContext = mContext;
