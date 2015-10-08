@@ -28,6 +28,8 @@ public class CustomPagerAdapter extends PagerAdapter {
     private Context mContext;
     public EditText mUserAnswerView;
 
+    private String mTimeSelected = "";
+
     private int[] backgroundColor = {
             0xFF101010,
             0xFF202020,
@@ -100,7 +102,9 @@ public class CustomPagerAdapter extends PagerAdapter {
                         @Override
                         public void onTimeChanged(TimePicker timePicker, int selectedHour, int selectedMinute) {
                             StringBuilder sb = new StringBuilder().append((selectedHour)).append(":").append((selectedMinute));
-                            mUserAnswerView.setText("New time is: " + sb.toString()); //bug
+                            Toast.makeText(mContext, "Time changed to " + selectedHour + ":" + selectedMinute + "!", Toast.LENGTH_SHORT).show();
+                            mTimeSelected = sb.toString();
+                            mUserAnswerView.setText("New time is: " + mTimeSelected); //bug
                         }
                     });
         }
@@ -125,6 +129,9 @@ public class CustomPagerAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((LinearLayout)object);
+        //if(position == (numberOfPages - 2)) {
+        //    Toast.makeText(mContext, "Timepicker destroyed!", Toast.LENGTH_SHORT).show();
+        //}
     }
 
 }
