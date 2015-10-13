@@ -96,7 +96,7 @@ public class MainActivity extends Activity {
 
         // Set up ViewPager
         mViewPager = (ViewPager)findViewById(R.id.viewpager);
-        mPagerAdapter = new CustomPagerAdapter(getApplicationContext());
+        mPagerAdapter = new CustomPagerAdapter(getApplicationContext(), MainActivity.this);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             int oldPos = mViewPager.getCurrentItem();

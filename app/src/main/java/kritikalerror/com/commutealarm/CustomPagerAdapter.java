@@ -1,5 +1,8 @@
 package kritikalerror.com.commutealarm;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +22,8 @@ import android.widget.Toast;
 import android.graphics.Color;
 import android.graphics.Typeface;
 
+import java.util.Calendar;
+
 /**
  * Created by Michael on 6/22/2015.
  */
@@ -26,6 +32,7 @@ public class CustomPagerAdapter extends PagerAdapter {
     public final int numberOfPages = 6;
 
     private Context mContext;
+    private Activity mActivity;
     public EditText mUserAnswerView;
 
     private String mTimeSelected = "";
@@ -48,8 +55,9 @@ public class CustomPagerAdapter extends PagerAdapter {
             "Click the screen to save settings and continue!"
     };
 
-    public CustomPagerAdapter(Context context) {
+    public CustomPagerAdapter(Context context, Activity activity) {
         mContext = context;
+        mActivity = activity;
     }
 
     @Override
@@ -92,12 +100,55 @@ public class CustomPagerAdapter extends PagerAdapter {
         // TimePicker dialog
         if(position == (numberOfPages - 2))
         {
+            Button timeDialog = new Button(mContext);
+            timeDialog.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            timeDialog.setText("Button");
+            timeDialog.setTag("timepicker");
+            timeDialog.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Process to get Current Time
+                    final Calendar c = Calendar.getInstance();
+                    int hour = c.get(Calendar.HOUR_OF_DAY);
+                    int minute = c.get(Calendar.MINUTE);
+
+                    // Launch Time Picker Dialog
+                    TimePickerDialog tpd = new TimePickerDialog(mActivity,
+                            new TimePickerDialog.OnTimeSetListener() {
+
+                                @Override
+                                public void onTimeSet(TimePicker view, int selectedHour,
+                                                      int selectedMinute) {
+                                    // Display Selected time in textbox
+                                    String finalTime = pad(selectedHour) + ":" + pad(selectedMinute);
+                                    Toast.makeText(mContext, "Time changed to " + finalTime + "!", Toast.LENGTH_SHORT).show();
+                                    mUserAnswerView.setText(finalTime);
+                                }
+                            }, hour, minute, false);
+                    tpd.show();
+                }
+            });
+            /*
+            TimePickerDialog.OnTimeSetListener timePickerListener =
+                new TimePickerDialog.OnTimeSetListener() {
+                    public void onTimeSet(TimePicker view, int selectedHour,
+                                          int selectedMinute) {
+                        int hour = selectedHour;
+                        int minute = selectedMinute;
+
+                        // set current time into textview
+                        mUserAnswerView.setText(new StringBuilder().append(pad(hour))
+                                .append(":").append(pad(minute)));
+                    }
+                };
+
             TimePicker timePickerView = new TimePicker(mContext);
             timePickerView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
             timePickerView.setTag("timepickerview");
+            */
             mUserAnswerView.setVisibility(View.INVISIBLE);
-            layout.addView(timePickerView);
-
+            layout.addView(timeDialog);
+            /*
             timePickerView.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
                         @Override
                         public void onTimeChanged(TimePicker timePicker, int selectedHour, int selectedMinute) {
@@ -107,6 +158,7 @@ public class CustomPagerAdapter extends PagerAdapter {
                             mUserAnswerView.setText("New time is: " + mTimeSelected); //bug
                         }
                     });
+                    */
         }
 
         final Context lastContext = mContext;
@@ -132,6 +184,13 @@ public class CustomPagerAdapter extends PagerAdapter {
         //if(position == (numberOfPages - 2)) {
         //    Toast.makeText(mContext, "Timepicker destroyed!", Toast.LENGTH_SHORT).show();
         //}
+    }
+
+    private static String pad (int c) {
+        if (c >= 10)
+            return String.valueOf(c);
+        else
+            return "0" + String.valueOf(c);
     }
 
 }
