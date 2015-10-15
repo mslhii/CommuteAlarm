@@ -22,6 +22,7 @@ import android.widget.Toast;
 import android.graphics.Color;
 import android.graphics.Typeface;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -34,6 +35,8 @@ public class CustomPagerAdapter extends PagerAdapter {
     private Context mContext;
     private Activity mActivity;
     public EditText mUserAnswerView;
+
+    private ArrayList<String> mTimeList;
 
     private String mTimeSelected = "";
 
@@ -58,6 +61,7 @@ public class CustomPagerAdapter extends PagerAdapter {
     public CustomPagerAdapter(Context context, Activity activity) {
         mContext = context;
         mActivity = activity;
+        mTimeList = new ArrayList<String>();
     }
 
     @Override
@@ -122,7 +126,8 @@ public class CustomPagerAdapter extends PagerAdapter {
                                     // Display Selected time in textbox
                                     String finalTime = pad(selectedHour) + ":" + pad(selectedMinute);
                                     Toast.makeText(mContext, "Time changed to " + finalTime + "!", Toast.LENGTH_SHORT).show();
-                                    mUserAnswerView.setText(finalTime);
+                                    //mUserAnswerView.setText(finalTime);
+                                    mTimeList.add(finalTime);
                                 }
                             }, hour, minute, false);
                     tpd.show();
@@ -184,6 +189,12 @@ public class CustomPagerAdapter extends PagerAdapter {
         //if(position == (numberOfPages - 2)) {
         //    Toast.makeText(mContext, "Timepicker destroyed!", Toast.LENGTH_SHORT).show();
         //}
+    }
+
+    public void setHiddenTextView() {
+        if(mTimeList != null) {
+            mUserAnswerView.setText(mTimeList.get(mTimeList.size() - 1));
+        }
     }
 
     private static String pad (int c) {
