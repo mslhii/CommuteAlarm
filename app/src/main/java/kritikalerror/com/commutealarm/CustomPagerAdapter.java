@@ -173,6 +173,7 @@ public class CustomPagerAdapter extends PagerAdapter {
         public void onClick(View v) {
             if (lastPosition == (numberOfPages - 1)) {
                 Intent setActivityIntent = new Intent(lastContext, AlarmSetActivity.class);
+                setActivityIntent.putExtra("TIME", mTimeList.get(mTimeList.size() - 1));
                 setActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 lastContext.startActivity(setActivityIntent);
             }

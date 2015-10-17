@@ -120,22 +120,21 @@ public class MainActivity extends Activity {
                     LinearLayout layout = (LinearLayout) mViewPager.findViewWithTag("pos" + oldPos);
                     EditText tempTextView = (EditText) layout.findViewWithTag("textview");
 
-                    if(oldPos == (mPagerAdapter.numberOfPages - 2))
-                    {
-                        mPagerAdapter.setHiddenTextView();
-
-                    }
+                    //if(oldPos == (mPagerAdapter.numberOfPages - 2))
+                    //{
+                    //    mPagerAdapter.setHiddenTextView();
+                    //}
                     Toast.makeText(MainActivity.this, "Text is " + tempTextView.getText().toString() + "!", Toast.LENGTH_SHORT).show();
 
                     // Make commit to SharedPrefs
                     switch (oldPos) {
-                        case 0:
+                        case 2:
                             mEditor.putString(prefStrings[0], tempTextView.getText().toString());
                             break;
-                        case 1:
+                        case 3:
                             mEditor.putString(prefStrings[1], tempTextView.getText().toString());
                             break;
-                        case 2:
+                        case 4:
                             mEditor.putString(prefStrings[2], tempTextView.getText().toString());
                             break;
                         default:

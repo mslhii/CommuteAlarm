@@ -68,6 +68,10 @@ public class AlarmSetActivity extends Activity implements
         // Start up Google client
         buildGoogleApiClient();
 
+        // Get user set time from previous activity
+        Bundle extras = getIntent().getExtras();
+        String userTIme = extras.getString("TIME");
+
         // Start SharedPreferences
         mPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         mEditor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
