@@ -70,7 +70,12 @@ public class AlarmSetActivity extends Activity implements
 
         // Get user set time from previous activity
         Bundle extras = getIntent().getExtras();
-        String userTIme = extras.getString("TIME");
+        String userTime = extras.getString("TIME");
+
+        // Commit our bundle just in case
+        mEditor.putString(HABIT_KEY, userTime);
+        mEditor.commit();
+        Toast.makeText(AlarmSetActivity.this, userTime, Toast.LENGTH_SHORT).show();
 
         // Start SharedPreferences
         mPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
@@ -96,6 +101,10 @@ public class AlarmSetActivity extends Activity implements
         String habit = mPreferences.getString(HABIT_KEY, null);
         if(habit != null) {
             mHabitBox.setText(habit);
+        }
+        else if(!userTime.equals(""))
+        {
+            mHabitBox.setText(userTime);
         }
         else {
             mHabitBox.setText("");

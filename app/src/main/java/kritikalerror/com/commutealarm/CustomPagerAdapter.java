@@ -106,7 +106,7 @@ public class CustomPagerAdapter extends PagerAdapter {
         {
             Button timeDialog = new Button(mContext);
             timeDialog.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-            timeDialog.setText("Button");
+            timeDialog.setText("Set Default Time");
             timeDialog.setTag("timepicker");
             timeDialog.setOnClickListener(new OnClickListener() {
                 @Override
