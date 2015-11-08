@@ -133,37 +133,9 @@ public class CustomPagerAdapter extends PagerAdapter {
                     tpd.show();
                 }
             });
-            /*
-            TimePickerDialog.OnTimeSetListener timePickerListener =
-                new TimePickerDialog.OnTimeSetListener() {
-                    public void onTimeSet(TimePicker view, int selectedHour,
-                                          int selectedMinute) {
-                        int hour = selectedHour;
-                        int minute = selectedMinute;
 
-                        // set current time into textview
-                        mUserAnswerView.setText(new StringBuilder().append(pad(hour))
-                                .append(":").append(pad(minute)));
-                    }
-                };
-
-            TimePicker timePickerView = new TimePicker(mContext);
-            timePickerView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-            timePickerView.setTag("timepickerview");
-            */
             mUserAnswerView.setVisibility(View.INVISIBLE);
             layout.addView(timeDialog);
-            /*
-            timePickerView.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-                        @Override
-                        public void onTimeChanged(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                            StringBuilder sb = new StringBuilder().append((selectedHour)).append(":").append((selectedMinute));
-                            Toast.makeText(mContext, "Time changed to " + selectedHour + ":" + selectedMinute + "!", Toast.LENGTH_SHORT).show();
-                            mTimeSelected = sb.toString();
-                            mUserAnswerView.setText("New time is: " + mTimeSelected); //bug
-                        }
-                    });
-                    */
         }
 
         final Context lastContext = mContext;
@@ -192,9 +164,6 @@ public class CustomPagerAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((LinearLayout)object);
-        //if(position == (numberOfPages - 2)) {
-        //    Toast.makeText(mContext, "Timepicker destroyed!", Toast.LENGTH_SHORT).show();
-        //}
     }
 
     public void setHiddenTextView() {
