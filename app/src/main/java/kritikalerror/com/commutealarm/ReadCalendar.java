@@ -28,7 +28,7 @@ public class ReadCalendar {
      * @return
      */
     public static ArrayList<String> readCalendarEvent(Context context) {
-// If event name has "YES!" in it, it's ours
+        // If event name has "YES!" in it, it's ours
         String selection = "title LIKE ?";
         Cursor cursor = context.getContentResolver()
                 .query(
@@ -36,9 +36,9 @@ public class ReadCalendar {
                         new String[] { "calendar_id", "title", "description",
                                 "dtstart", "dtend", "eventLocation" }, selection, new String[]{"YES!%"}, null);
         cursor.moveToFirst();
-// Get calendar name
+        // Get calendar name
         String cNames[] = new String[cursor.getCount()];
-// Get calendar ID
+        // Get calendar ID
         nameOfEvent.clear();
         startDates.clear();
         endDates.clear();
@@ -62,20 +62,20 @@ public class ReadCalendar {
      * @return
      */
     public static ArrayList<String> readCalendarEvent(Context context, long startDate, long endDate) {
-// If event name has "YES!" in it, it's ours
-//String selection = "title LIKE ? AND dtstart > ? AND dtend < ?";
+        // If event name has "YES!" in it, it's ours
+        //String selection = "title LIKE ? AND dtstart > ? AND dtend < ?";
         String selection = "title LIKE ?";
         String start = String.valueOf(startDate);
-//start = "08/04/2015 01:50:00 AM";
+        //start = "08/04/2015 01:50:00 AM";
         String end = String.valueOf(endDate);
-/*
-Cursor cursor = context.getContentResolver()
-.query(
-Uri.parse(CALENDAR_URI),
-new String[] { "calendar_id", "title", "description",
-"dtstart", "dtend", "eventLocation" }, selection,
-new String[]{"YES!%", start, end}, null);
-*/
+        /*
+        Cursor cursor = context.getContentResolver()
+        .query(
+        Uri.parse(CALENDAR_URI),
+        new String[] { "calendar_id", "title", "description",
+        "dtstart", "dtend", "eventLocation" }, selection,
+        new String[]{"YES!%", start, end}, null);
+        */
         Cursor cursor = context.getContentResolver()
                 .query(
                         Uri.parse(CALENDAR_URI),
