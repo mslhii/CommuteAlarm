@@ -68,14 +68,7 @@ public class ReadCalendar {
         String start = String.valueOf(startDate);
         //start = "08/04/2015 01:50:00 AM";
         String end = String.valueOf(endDate);
-        /*
-        Cursor cursor = context.getContentResolver()
-        .query(
-        Uri.parse(CALENDAR_URI),
-        new String[] { "calendar_id", "title", "description",
-        "dtstart", "dtend", "eventLocation" }, selection,
-        new String[]{"YES!%", start, end}, null);
-        */
+
         Cursor cursor = context.getContentResolver()
                 .query(
                         Uri.parse(CALENDAR_URI),
