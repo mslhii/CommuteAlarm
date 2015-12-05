@@ -127,24 +127,25 @@ public class MainActivity extends Activity {
 
                     // Make sure the text is not null
                     if (tempTextView.getText().toString() != null) {
-                        Toast.makeText(MainActivity.this, "Text is " + tempTextView.getText().toString() + "!", Toast.LENGTH_SHORT).show();
 
-                        // Make commit to SharedPrefs
-                        switch (oldPos) {
-                            case 2:
-                                mEditor.putString(prefStrings[0], tempTextView.getText().toString());
-                                break;
-                            case 3:
-                                mEditor.putString(prefStrings[1], tempTextView.getText().toString());
-                                break;
-                            case 4:
-                                mEditor.putString(prefStrings[2], tempTextView.getText().toString());
-                                break;
-                            default:
-                                break;
-                        }
-                        mEditor.commit();
                     }
+                    Toast.makeText(MainActivity.this, "Text is " + tempTextView.getText().toString() + "!", Toast.LENGTH_SHORT).show();
+
+                    // Make commit to SharedPrefs
+                    switch (oldPos) {
+                        case 2:
+                            mEditor.putString(prefStrings[0], tempTextView.getText().toString());
+                            break;
+                        case 3:
+                            mEditor.putString(prefStrings[1], tempTextView.getText().toString());
+                            break;
+                        case 4:
+                            mEditor.putString(prefStrings[2], tempTextView.getText().toString());
+                            break;
+                        default:
+                            break;
+                    }
+                    mEditor.commit();
                 }
 
                 //Toast.makeText(MainActivity.this, "Finished committing case " + oldPos + "!", Toast.LENGTH_SHORT).show();
