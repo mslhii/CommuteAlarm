@@ -119,6 +119,7 @@ public class MainActivity extends Activity {
                 if(!(oldPos == (mPagerAdapter.numberOfPages - 1)) && (oldPos > 1)) {
                     LinearLayout layout = (LinearLayout) mViewPager.findViewWithTag("pos" + oldPos);
                     EditText tempTextView = (EditText) layout.findViewWithTag("textview");
+                    String textViewString = tempTextView.getText().toString();
 
                     //if(oldPos == (mPagerAdapter.numberOfPages - 2))
                     //{
@@ -126,21 +127,21 @@ public class MainActivity extends Activity {
                     //}
 
                     // Make sure the text is not null
-                    if (tempTextView.getText().toString() != null) {
-
+                    if (textViewString == null) {
+                        textViewString = "";
                     }
-                    Toast.makeText(MainActivity.this, "Text is " + tempTextView.getText().toString() + "!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Text is " + textViewString + "!", Toast.LENGTH_SHORT).show();
 
                     // Make commit to SharedPrefs
                     switch (oldPos) {
                         case 2:
-                            mEditor.putString(prefStrings[0], tempTextView.getText().toString());
+                            mEditor.putString(prefStrings[0], textViewString);
                             break;
                         case 3:
-                            mEditor.putString(prefStrings[1], tempTextView.getText().toString());
+                            mEditor.putString(prefStrings[1], textViewString);
                             break;
                         case 4:
-                            mEditor.putString(prefStrings[2], tempTextView.getText().toString());
+                            mEditor.putString(prefStrings[2], textViewString);
                             break;
                         default:
                             break;
