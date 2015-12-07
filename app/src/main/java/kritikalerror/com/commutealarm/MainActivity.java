@@ -121,10 +121,6 @@ public class MainActivity extends Activity {
                     EditText tempTextView = (EditText) layout.findViewWithTag("textview");
                     String textViewString = tempTextView.getText().toString();
 
-                    //if(oldPos == (mPagerAdapter.numberOfPages - 2))
-                    //{
-                    //    mPagerAdapter.setHiddenTextView();
-                    //}
 
                     // Make sure the text is not null
                     if (textViewString == null) {
