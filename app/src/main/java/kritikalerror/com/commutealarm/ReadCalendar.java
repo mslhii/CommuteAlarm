@@ -75,7 +75,7 @@ public class ReadCalendar {
                         new String[] { "calendar_id", "title", "description",
                                 "dtstart", "dtend", "eventLocation" }, selection, new String[]{"YES!%"}, null);
         cursor.moveToFirst();
-// Get calendar name
+        // Get calendar name
         String cNames[] = new String[cursor.getCount()];
         // Get calendar ID
         nameOfEvent.clear();
