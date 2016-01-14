@@ -77,7 +77,7 @@ public class ReadCalendar {
         cursor.moveToFirst();
 // Get calendar name
         String cNames[] = new String[cursor.getCount()];
-// Get calendar ID
+        // Get calendar ID
         nameOfEvent.clear();
         startDates.clear();
         endDates.clear();
@@ -90,7 +90,7 @@ public class ReadCalendar {
                 endDates.add(getDate(Long.parseLong(cursor.getString(4))));
                 descriptions.add(cursor.getString(2));
                 cNames[i] = cursor.getString(1);
-// DEBUG to check dates
+                // DEBUG to check dates
                 Log.e("QUERYDATE", cursor.getString(3));
                 Log.e("STARTDATE", String.valueOf(startDate));
                 Log.e("ENDDATE", String.valueOf(endDate));
