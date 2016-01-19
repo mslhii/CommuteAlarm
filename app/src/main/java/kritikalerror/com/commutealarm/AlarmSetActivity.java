@@ -88,7 +88,6 @@ public class AlarmSetActivity extends Activity implements
         mAlarmTextView = (TextView) findViewById(R.id.alarmNotification);
         mAlarmRingerView = (TextView) findViewById(R.id.ringer);
         mHabitBox = (TextView) findViewById(R.id.prepareTime);
-        //mSaveButton = (Button) findViewById(R.id.button);
 
         // Get values from SharedPrefs
         String location = mPreferences.getString(LOCATION_KEY, null);
