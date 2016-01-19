@@ -15,7 +15,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
-// forgot why i need this, its been a while...
+/**
+ * Class to read calendar for any user events
+ */
 public class ReadCalendar {
     public static ArrayList<String> nameOfEvent = new ArrayList<String>();
     public static ArrayList<String> startDates = new ArrayList<String>();
