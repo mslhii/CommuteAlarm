@@ -138,6 +138,8 @@ public class CustomPagerAdapter extends PagerAdapter {
             layout.addView(timeDialog);
         }
 
+        //TODO: filler comment to add calendar option here
+
         final Context lastContext = mContext;
         final int lastPosition = position;
         layout.setOnClickListener(new OnClickListener(){
