@@ -3,5 +3,5 @@ Alarm clock that is set based on the traffic conditions. Uses Google Directions 
 
 Still a WIP, lots of testing needed. GUI in progress. Not functional yet.
 
-TBD:
+TBD: <br/>
 Setup
