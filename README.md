@@ -6,3 +6,4 @@ Still a WIP, lots of testing needed. GUI in progress. Not functional yet.
 TBD: <br/>
 Setup <br/>
 Algorithm
+UI
