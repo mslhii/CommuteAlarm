@@ -75,6 +75,7 @@ public class SettingsActivity extends PreferenceActivity {
         }
         category.addPreference(eventPref);
 
+        // Save this for last
         //DialogPreference dialogPref = new DialogPreference(this);
         //dialogPref .setTitle("Reset App");
         //dialogPref .setSummary("Reset");
