@@ -174,6 +174,11 @@ public class CustomPagerAdapter extends PagerAdapter {
         }
     }
 
+    /**
+     * Function for padding zeros to our time
+     * @param c
+     * @return
+     */
     private static String pad (int c) {
         if (c >= 10)
             return String.valueOf(c);
